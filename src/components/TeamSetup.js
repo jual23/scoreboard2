@@ -21,7 +21,7 @@ const TeamSetup = ({
             <button onClick={() => setTeam(!team)} className="primary-button">
                 <SwapHorizIcon />
             </button>
-            <div className="teams-container">
+            <div>
                 {team && (
                     <SortableList
                         updateTeam={updateHomeTeam}
