@@ -3,40 +3,36 @@ import {Draggable} from 'react-beautiful-dnd'
 import {Droppable} from 'react-beautiful-dnd'
 import Grid from '@mui/material/Grid'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
-import Button from '@mui/material/Button'
 import Stats from './Stats'
+
+
 
 const SortableList = ({
     team,
     teamName,
     teamBatter,
     teamId,
-    statUp,
-    statDown,
-    onHandlePlayer,
-    updateTeam,
+    updateTeam
 }) => {
+    
     return (
         <div>
-            <div>
-                <h2>{teamName}</h2>
-            </div>
 
             <DragDropContext onDragEnd={updateTeam}>
                 <Grid container>
                     <Droppable droppableId={teamId + '_batter'}>
                         {(provided, snapshot) => (
-                            <div className="selectorBox">
+                            <div className="sortingBox">
                                 <Grid
                                     container
                                     justifyContent="center"
                                     rowSpacing={2}
                                     ref={provided.innerRef}>
                                     {teamBatter.map((player, index) => (
-                                        <Grid container item xs={10}>
+                                        <Grid key={player.id} item xs={11}>
                                             <Draggable
                                                 draggableId={player.id}
-                                                key={player.id}
+                                                
                                                 index={index}>
                                                 {(provided, snapshot) => (
                                                     <Grid
@@ -58,9 +54,6 @@ const SortableList = ({
                                                             <Stats
                                                                 key={player.id}
                                                                 player={player}
-                                                                onHandlePlayer={
-                                                                    onHandlePlayer
-                                                                }
                                                                 teamName={
                                                                     teamName
                                                                 }
@@ -78,14 +71,14 @@ const SortableList = ({
                     </Droppable>
                     <Droppable droppableId={teamId + '_reserve'}>
                         {(provided, snapshot) => (
-                            <div className="selectorBox">
+                            <div className="sortingBox">
                                 <Grid
                                     container
                                     justifyContent="center"
                                     rowSpacing={2}
                                     ref={provided.innerRef}>
                                     {team.map((player, index) => (
-                                        <Grid item xs={11}>
+                                        <Grid key={player.id} item xs={11}>
                                             <Draggable
                                                 draggableId={player.id}
                                                 key={player.id}
@@ -110,9 +103,6 @@ const SortableList = ({
                                                             <Stats
                                                                 key={player.id}
                                                                 player={player}
-                                                                onHandlePlayer={
-                                                                    onHandlePlayer
-                                                                }
                                                                 teamName={
                                                                     teamName
                                                                 }

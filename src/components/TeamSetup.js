@@ -1,8 +1,9 @@
 import SortableList from './SortableList'
-import {useEffect} from 'react'
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
 import {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
+import Card from '@mui/material/Card';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
+import Grid from '@mui/material/Grid'
 
 const TeamSetup = ({
     teamNameHome,
@@ -14,39 +15,46 @@ const TeamSetup = ({
     awayTeamBatter,
     updateAwayTeam,
 }) => {
-    const [team, setTeam] = useState(true)
+    const [home, setHome] = useState(true)
     let navigate = useNavigate()
     return (
-        <div className="setup">
-            <button onClick={() => setTeam(!team)} className="primary-button">
-                <SwapHorizIcon />
-            </button>
-            <div>
-                {team && (
-                    <SortableList
-                        updateTeam={updateHomeTeam}
-                        team={homeTeam}
-                        teamBatter={homeTeamBatter}
-                        teamId={'home'}
-                        teamName={teamNameHome}
-                        onHandlePlayer={null}
-                    />
-                )}
-                {!team && (
-                    <SortableList
-                        updateTeam={updateAwayTeam}
-                        team={awayTeam}
-                        teamBatter={awayTeamBatter}
-                        teamId={'away'}
-                        teamName={teamNameAway}
-                        onHandlePlayer={null}
-                    />
-                )}
-            </div>
-            <div>
-                <button onClick={() => navigate('/tracker')}>CONTINUAR</button>
-            </div>
-        </div>
+        <>
+            <Grid container justifyContent='space-around' rowSpacing={1}>
+                <Grid item xs={12}>
+                    <Card>
+                        <Grid container alignItems='center' justifyContent='space-around'>
+                            <Grid item xs={6}>{home === true ? <h2>{teamNameHome}</h2> : <h2>{teamNameAway}</h2>}</Grid>
+                            <Grid item xs={2}>            
+                                <button onClick={() => setHome(!home)} className="primaryButton">
+                                    <SwapHorizIcon fontSize='medium'/>   
+                                </button>   
+                            </Grid>
+                        </Grid>
+                    </Card>
+                </Grid>
+            </Grid>
+            {home && (
+                <SortableList
+                    updateTeam={updateHomeTeam}
+                    team={homeTeam}
+                    teamBatter={homeTeamBatter}
+                    teamId={'home'}
+                    teamName={teamNameHome}
+                />
+            )}
+            {!home && (
+                <SortableList
+                    updateTeam={updateAwayTeam}
+                    team={awayTeam}
+                    teamBatter={awayTeamBatter}
+                    teamId={'away'}
+                    teamName={teamNameAway}
+                />
+            )}
+            <Grid container justifyContent='space-around'>
+                <Grid item><button item className='primaryButton' onClick={() => navigate('/tracker')}>CONTINUAR</button></Grid>
+            </Grid>
+        </>
     )
 }
 

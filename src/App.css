@@ -1,5 +1,5 @@
 body {
-  background-color: #424242;
+  background-color: #333333;
 }
 
 .main{
@@ -7,12 +7,16 @@ body {
   margin: auto;
 }
 
+h2 {
+  font-family: 'Raleway';
+}
+
 ul {
   list-style: none;
 }
 
   /***************/
- /* Team Setup  */
+ /* Team Select  */
 /***************/
 
 .selector {
@@ -32,9 +36,6 @@ ul {
   transform: translate(-50%, -50%);
 }
 
-.selector h2 {
-  font-family: 'Raleway';
-}
 
 .selector form {
   height: 200px;
@@ -57,12 +58,11 @@ input[type=button], input[type=submit], input[type=reset] {
   /*****************/
  /* Team Setup   */
 /***************/
-.selectorBox {
-  background-color: white;
+.sortingBox {
+  background-color: rgb(231, 235, 240);
   margin:10px auto;
-padding: 30px 0;
+padding: 16px 0;
 border-radius: 5px;
-min-height: 100px;
 width: 80%;
 
 }
@@ -180,11 +180,11 @@ flex-basis: 45%;
 
 
 .gender_m {
-  border: 3px solid skyblue;;
+  border-left:7px solid rgb(89, 198, 218);
 }
 
 .gender_f {
-  border:3px solid pink;
+  border-left:7px solid rgb(247, 172, 213);
 }
 
 .player-list_stats {
@@ -205,19 +205,10 @@ flex-basis: 45%;
 .player-list_stats h2 {
   margin: 0;
   font-weight: 500;
-  flex-basis: 20%;
   line-height: 27px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.player-list_stats h3 {
-  margin: 0;
-  font-weight: 500;
-  flex-basis: 80%;
-  font-size: 15px;
-  line-height: 27px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
+
 
 .player-list_stats_modal {
   position: absolute;
@@ -229,46 +220,18 @@ flex-basis: 45%;
   border-radius: 10px;
 }
 
-.player-list_stats_modal h3 {
-  text-align: center;
-}
 
-.player-list_stats_modal ul {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.player-list_stats_modal > div {
-  display: flex;
-  justify-content: space-evenly;
-  margin:20px
-}
-
-.player-list_stats_modal > div > div {
-  flex-basis: 30% ;
-}
-.player-list_stats_modal > div > div input {
-  width: 100% ;
-  height: 25px;
-  border: 1px solid #000;
-  border-radius: 3px;
-}
-
-.player-list_stats_modal button {
-  width:40px;
-  height: 40px;
-  border-radius: 50%;
-  font-size: 25px;
+.primaryButton {
+  border-radius: 4px;
+  font-size: 20px;
+  font-family: 'Raleway';
   border: none;
   background-color: #00723b;
   color: #FFF;
+  margin: 20px 0;
+  padding: 10px;
+  width: 100%;
 }
-
-.player-list_stats_modal ul li {
-  flex-basis: 10%;
-  text-align: center;
-}
-
 
 /* MOBILE */
 @media only screen and (max-width: 650px) {
@@ -320,12 +283,8 @@ flex-basis: 18%;
     justify-content: space-around;
   }
   
-  .inning-stat h3 {
-    width: 30px;
-    height: 30px;
-    margin: 2px;
+  h3 {
     text-align: center;
-    line-height: 30px;
   }
   .selector {
     background-color: #fff;

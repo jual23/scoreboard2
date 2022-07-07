@@ -1,17 +1,13 @@
 import React from 'react'
+import Card from '@mui/material/Card';
 
 const MatchInfo = ({matchData}) => {
     return (
-        <div>
-            <div className="scoreboard-container_game-stat">
-                <h3>INNING</h3>
-                <p>{matchData.inning}</p>
-            </div>
-            <div className="scoreboard-container_game-stat">
-                <h3>OUT</h3>
-                <p>{matchData.outs}</p>
-            </div>
-        </div>
+        <Card>
+                <h3>INNING: {matchData.inning}</h3>
+                <h3>OUTS: {matchData.outs}</h3>
+
+        </Card>
     )
 }
 

@@ -2,7 +2,7 @@ import MatchInfo from './MatchInfo'
 import Sideboard from './Sideboard'
 import Scoreboard from './Scoreboard'
 import Stats from './Stats'
-import {Stack} from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 const GameTracker = ({
     awayTeamBatter,
@@ -17,82 +17,85 @@ const GameTracker = ({
     designatedHitter,
 }) => {
     return (
-        <div className="main">
-            <div className="top-row">
-                <MatchInfo matchData={matchData} />
-                <Scoreboard
+        <Grid container className="main" rowSpacing={2}>
+            <Grid item container className="top-row" xs={12}>
+                <Grid item xs={10}>
+                    <MatchInfo matchData={matchData} />
+                </Grid>
+                <Grid item xs={12}>
+                    <Scoreboard
                     matchData={matchData}
                     homeRuns={homeRuns}
                     awayRuns={awayRuns}
-                />
-                <Sideboard
+                    />
+                </Grid>
+                <Grid item  >
+                    <Sideboard
                     matchData={matchData}
                     setMatchData={setMatchData}
                     home={true}
-                />
-            </div>
+                    />
+                </Grid>
+            </Grid>
             {matchData.bottomHalf === true ? (
-                <div>
-                    {designatedHitter && (
-                        <div onClick={() => onHandlePlayer(designatedHitter)}>
-                            <Stats player={designatedHitter} />
-                        </div>
-                    )}
-                    <Stack spacing={2}>
-                        {awayTeamBatter.map(player => (
-                            <div
-                                key={player.id}
-                                onClick={() =>
-                                    onHandlePlayer(player, awayTeam)
-                                }>
-                                <Stats player={player} />
-                            </div>
-                        ))}
-                    </Stack>
-                    <Stack spacing={2}>
-                        {awayTeam.map(player => (
-                            <div
-                                key={player.id}
-                                onClick={() =>
-                                    onHandlePlayer(player, awayTeam)
-                                }>
-                                <Stats player={player} />
-                            </div>
-                        ))}
-                    </Stack>
-                </div>
+                <Grid item container justifyContent='space-around' xs={12}>
+                    <Grid container justifyContent='space-around' rowSpacing={2}>
+                        {designatedHitter && (
+                            <Grid item xs={10} onClick={() => onHandlePlayer(designatedHitter)}>
+                                <Stats player={designatedHitter} />
+                            </Grid>
+                        )}
+                            {awayTeamBatter.map(player => (
+                                <Grid item xs={10}
+                                    onClick={() =>
+                                        onHandlePlayer(player, awayTeam)
+                                    }>
+                                    <Stats player={player} />
+                                </Grid>
+                            ))}
+                    </Grid>
+                    <Grid container justifyContent='space-around' rowSpacing={2}>
+                            {awayTeam.map(player => (
+                                <Grid item xs={10}
+                                    onClick={() =>
+                                        onHandlePlayer(player, awayTeam)
+                                    }>
+                                    <Stats player={player} />
+                                </Grid>
+                            ))}
+                    </Grid>
+                </Grid>
             ) : (
-                <div>
-                    {designatedHitter && (
-                        <div onClick={() => onHandlePlayer(designatedHitter)}>
-                            <Stats player={designatedHitter} />
-                        </div>
-                    )}
-                    <Stack spacing={2}>
-                        {homeTeamBatter.map(player => (
-                            <div
-                                key={player.id}
-                                onClick={() =>
-                                    onHandlePlayer(player, homeTeam)
-                                }>
-                                <Stats player={player} />
-                            </div>
-                        ))}
-                    </Stack>
-                    <Stack spacing={2}>
-                        {homeTeam.map(player => (
-                            <div
-                                key={player.id}
-                                onClick={() =>
-                                    onHandlePlayer(player, homeTeam)
-                                }>
-                                <Stats player={player} />
-                            </div>
-                        ))}
-                    </Stack>
-                </div>
+                <Grid item container justifyContent='space-around' rowSpacing={5}>
+                        <Grid container justifyContent='space-around' rowSpacing={2}  sx={{ marginTop: 1}}>
+                        
+                            {designatedHitter && (
+                                <Grid item xs={10} onClick={() => onHandlePlayer(designatedHitter)}>
+                                    <Stats player={designatedHitter} />
+                                </Grid>
+                            )}
+                                {homeTeamBatter.map(player => (
+                                    <Grid item xs={10}
+                                        onClick={() =>
+                                            onHandlePlayer(player, awayTeam)
+                                        }>
+                                        <Stats player={player} />
+                                    </Grid>
+                                ))}
+                        </Grid>
+                        <Grid container justifyContent='space-around' xs={11} rowSpacing={2} sx={{ marginTop: 1}}>
+                            {homeTeam.map(player => (
+                                    <Grid item xs={10}
+                                    onClick={() =>
+                                        onHandlePlayer(player, awayTeam)
+                                    }>
+                                    <Stats player={player} />
+                                </Grid>
+                            ))}
+                        </Grid>
+                </Grid>
             )}
-        </div>
+        </Grid>
     )
 }
 

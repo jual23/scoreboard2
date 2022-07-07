@@ -11,7 +11,6 @@ import GameTracker from './components/GameTracker'
 import ModalStats from './components/ModalStats'
 import TeamSelect from './components/TeamSelect'
 import TeamSetup from './components/TeamSetup'
-import ModalChallenge from './components/ModalChallenge'
 
 const App = () => {
     let navigate = useNavigate()
