@@ -52,7 +52,7 @@ const TeamSetup = ({
                 />
             )}
             <Grid container justifyContent='space-around'>
-                <Grid item><button item className='primaryButton' onClick={() => navigate('/tracker')}>CONTINUAR</button></Grid>
+                <Grid item><button className='primaryButton' onClick={() => navigate('/tracker')}>CONTINUAR</button></Grid>
             </Grid>
         </>
     )
