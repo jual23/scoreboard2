@@ -2,7 +2,7 @@ import React from 'react'
 import Dialog from '@mui/material/Dialog'
 import {useState} from 'react'
 import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card';
+import Card from '@mui/material/Card'
 
 const Sideboard = ({matchData, setMatchData}) => {
     const [openTimeout, setOpenTimeout] = useState(false)
@@ -44,6 +44,7 @@ const Sideboard = ({matchData, setMatchData}) => {
                   ...matchData,
                   awayChallenge: matchData.awayChallenge - 1,
               })
+        setOpenChallenge(false)
     }
     const challengeLose = team => {
         team === 1
@@ -57,6 +58,7 @@ const Sideboard = ({matchData, setMatchData}) => {
                   awayChallenge: matchData.awayChallenge - 1,
                   awayTimeout: matchData.awayTimeout - 1,
               })
+        setOpenChallenge(false)
     }
     const timeoutConfirm = team => {
         team === 1
@@ -68,37 +70,45 @@ const Sideboard = ({matchData, setMatchData}) => {
                   ...matchData,
                   awayTimeout: matchData.awayTimeout - 1,
               })
+        setOpenTimeout(false)
     }
 
     return (
-        
         <Grid container justifyContent="space-around">
-            <Grid item xs={5} >
+            <Grid item xs={5}>
                 <Card>
                     <Grid container justifyContent="center">
                         <Grid item xs={10}>
-                            <button className='primaryButton' onClick={() => handleOpenTimeout(0)}>
+                            <button
+                                className="primaryButton"
+                                onClick={() => handleOpenTimeout(0)}>
                                 Timeouts: {matchData.awayTimeout}
                             </button>
                         </Grid>
                         <Grid item xs={10}>
-                            <button className='primaryButton' onClick={() => handleOpenChallenge(0)}>
+                            <button
+                                className="primaryButton"
+                                onClick={() => handleOpenChallenge(0)}>
                                 Challenge: {matchData.awayChallenge}
                             </button>
                         </Grid>
                     </Grid>
                 </Card>
             </Grid>
-            <Grid  item xs={5} >
+            <Grid item xs={5}>
                 <Card>
                     <Grid container justifyContent="center">
                         <Grid item xs={10}>
-                            <button className='primaryButton' onClick={() => handleOpenTimeout(0)}>
+                            <button
+                                className="primaryButton"
+                                onClick={() => handleOpenTimeout(1)}>
                                 Timeouts: {matchData.homeTimeout}
                             </button>
                         </Grid>
                         <Grid item xs={10}>
-                            <button className='primaryButton' onClick={() => handleOpenChallenge(0)}>
+                            <button
+                                className="primaryButton"
+                                onClick={() => handleOpenChallenge(1)}>
                                 Challenge: {matchData.homeChallenge}
                             </button>
                         </Grid>
@@ -109,7 +119,7 @@ const Sideboard = ({matchData, setMatchData}) => {
                 <div>
                     <h3>¿Desea llamar un timeout?</h3>
                     <button onClick={() => timeoutConfirm(team)}> Si</button>
-                    <button onClick={() => timeoutConfirm(team)}> No</button>
+                    <button onClick={() => setOpenTimeout(false)}> No</button>
                 </div>
             </Dialog>
             <Dialog

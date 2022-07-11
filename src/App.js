@@ -78,6 +78,7 @@ const App = () => {
                 role: 0,
                 hit: 0,
                 double: 0,
+                triple: 0,
                 run: 0,
                 homerun: 0,
                 out: 0,
@@ -207,8 +208,8 @@ const App = () => {
         setPlayer(player)
     }
 
-    const statUp = (currentPlayer, stat) => {
-        console.log(player)
+    const statUp = (currentPlayer, stat, replace) => {
+        console.log(currentPlayer)
         if (stat === 'out' || stat === 'strikeout') {
             outUp()
         }
@@ -221,10 +222,14 @@ const App = () => {
                 ? setHomeBatter(
                       homeBatter.map(player => {
                           if (player.id === currentPlayer.id) {
-                              return {
-                                  ...currentPlayer,
-                                  [stat]: currentPlayer[stat] + 1,
+                              if (!replace) {
+                                  setPlayer({
+                                      ...player,
+                                      [stat]: player[stat] + 1,
+                                  })
                               }
+
+                              return {...player, [stat]: player[stat] + 1}
                           }
                           return player
                       })
@@ -232,12 +237,12 @@ const App = () => {
                 : setAwayBatter(
                       awayBatter.map(player => {
                           if (player.id === currentPlayer.id) {
-                              if (stat === 'pateador' || stat === 'corredor') {
-                              } else
+                              if (!replace) {
                                   setPlayer({
                                       ...player,
                                       [stat]: player[stat] + 1,
                                   })
+                              }
                               return {...player, [stat]: player[stat] + 1}
                           }
                           return player
@@ -247,10 +252,10 @@ const App = () => {
             ? setHomeTeam(
                   homeTeam.map(player => {
                       if (player.id === currentPlayer.id) {
-                          return {
-                              ...currentPlayer,
-                              [stat]: currentPlayer[stat] + 1,
+                          if (!replace) {
+                              setPlayer({...player, [stat]: player[stat] + 1})
                           }
+                          return {...player, [stat]: player[stat] + 1}
                       }
                       return player
                   })
@@ -258,9 +263,9 @@ const App = () => {
             : setAwayTeam(
                   awayTeam.map(player => {
                       if (player.id === currentPlayer.id) {
-                          if (stat === 'pateador' || stat === 'corredor') {
-                          } else
+                          if (!replace) {
                               setPlayer({...player, [stat]: player[stat] + 1})
+                          }
                           return {...player, [stat]: player[stat] + 1}
                       }
                       return player
@@ -268,7 +273,7 @@ const App = () => {
               )
     }
 
-    const statDown = (currentPlayer, stat) => {
+    const statDown = (currentPlayer, stat, replace) => {
         if (stat === 'out' || stat === 'strikeout') {
             outDown()
         }
@@ -281,7 +286,12 @@ const App = () => {
                 ? setHomeBatter(
                       homeBatter.map(player => {
                           if (player.id === currentPlayer.id) {
-                              setPlayer({...player, [stat]: player[stat] - 1})
+                              if (!replace) {
+                                  setPlayer({
+                                      ...player,
+                                      [stat]: player[stat] + 1,
+                                  })
+                              }
                               return {...player, [stat]: player[stat] - 1}
                           }
                           return player
@@ -290,7 +300,12 @@ const App = () => {
                 : setAwayBatter(
                       awayBatter.map(player => {
                           if (player.id === currentPlayer.id) {
-                              setPlayer({...player, [stat]: player[stat] - 1})
+                              if (!replace) {
+                                  setPlayer({
+                                      ...player,
+                                      [stat]: player[stat] + 1,
+                                  })
+                              }
                               return {...player, [stat]: player[stat] - 1}
                           }
                           return player
@@ -300,7 +315,9 @@ const App = () => {
             ? setHomeTeam(
                   homeTeam.map(player => {
                       if (player.id === currentPlayer.id) {
-                          setPlayer({...player, [stat]: player[stat] - 1})
+                          if (!replace) {
+                              setPlayer({...player, [stat]: player[stat] + 1})
+                          }
                           return {...player, [stat]: player[stat] - 1}
                       }
                       return player
@@ -309,7 +326,9 @@ const App = () => {
             : setAwayTeam(
                   awayTeam.map(player => {
                       if (player.id === currentPlayer.id) {
-                          setPlayer({...player, [stat]: player[stat] - 1})
+                          if (!replace) {
+                              setPlayer({...player, [stat]: player[stat] + 1})
+                          }
                           return {...player, [stat]: player[stat] - 1}
                       }
                       return player

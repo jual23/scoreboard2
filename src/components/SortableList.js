@@ -5,19 +5,9 @@ import Grid from '@mui/material/Grid'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import Stats from './Stats'
 
-
-
-const SortableList = ({
-    team,
-    teamName,
-    teamBatter,
-    teamId,
-    updateTeam
-}) => {
-    
+const SortableList = ({team, teamName, teamBatter, teamId, updateTeam}) => {
     return (
         <div>
-
             <DragDropContext onDragEnd={updateTeam}>
                 <Grid container>
                     <Droppable droppableId={teamId + '_batter'}>
@@ -32,7 +22,6 @@ const SortableList = ({
                                         <Grid key={player.id} item xs={11}>
                                             <Draggable
                                                 draggableId={player.id}
-                                                
                                                 index={index}>
                                                 {(provided, snapshot) => (
                                                     <Grid
@@ -120,6 +109,9 @@ const SortableList = ({
                     </Droppable>
                 </Grid>
             </DragDropContext>
+            <Grid container>
+                <Grid item xs={10}></Grid>
+            </Grid>
         </div>
     )
 }
