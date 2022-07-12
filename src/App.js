@@ -14,7 +14,7 @@ import TeamSetup from './components/TeamSetup'
 
 const App = () => {
     let navigate = useNavigate()
-    const [teams, setTeams] = useState([{id: '', attributes: {name: ''}}])
+    const [teams, setTeams] = useState([])
 
     useEffect(() => {
         axios
@@ -26,7 +26,7 @@ const App = () => {
             })
     }, [])
 
-    const [player, setPlayer] = useState(null)
+    const [currentPlayer, setCurrentPlayer] = useState(null)
 
     const [matchData, setMatchData] = useState({
         home: '',
@@ -64,7 +64,7 @@ const App = () => {
         {inning: 8, runs: ''},
     ])
 
-    const parsePlayers = (response, teamId, teamName) => {
+    const parsePlayers = async (response, teamId, teamName) => {
         let output = []
 
         for (let player of response) {
@@ -93,16 +93,19 @@ const App = () => {
     // Rosters de bateo y reserva
     const [designatedHitter, setDesignatedHitter] = useState(null)
 
-    const [homeTeam, setHomeTeam] = useState()
-    const [awayTeam, setAwayTeam] = useState()
+    const [homeTeam, setHomeTeam] = useState([])
+    const [awayTeam, setAwayTeam] = useState([])
     const [homeBatter, setHomeBatter] = useState([])
     const [awayBatter, setAwayBatter] = useState([])
-    const [reserve, setReserve] = useState(null)
+    const [homeReserve, setHomeReserve] = useState([])
+    const [awayReserve, setAwayReserve] = useState([])
+    const [batterList, setBatterList] = useState(null)
+    const [fieldList, setFieldList] = useState(null)
 
     const updateHomeTeam = result => {
         let movedItem,
             newBatter = homeBatter,
-            newReserve = homeTeam
+            newReserve = homeReserve
 
         if (result.source.droppableId === result.destination.droppableId) {
             if (result.source.droppableId === 'home_reserve') {
@@ -127,14 +130,15 @@ const App = () => {
                 newReserve.splice(result.destination.index, 0, movedItem)
             }
         }
-        setHomeTeam(newReserve)
+        setHomeReserve(newReserve)
         setHomeBatter(newBatter)
     }
 
     const updateAwayTeam = result => {
+        console.log(awayTeam)
         let movedItem,
             newBatter = awayBatter,
-            newReserve = awayTeam
+            newReserve = awayReserve
 
         if (result.source.droppableId === result.destination.droppableId) {
             if (result.source.droppableId === 'away_reserve') {
@@ -160,56 +164,52 @@ const App = () => {
             }
         }
 
-        setAwayTeam(newReserve)
+        setAwayReserve(newReserve)
         setAwayBatter(newBatter)
+        console.log(awayTeam)
     }
 
     const handleDesignatedHitter = player => {
-        setPlayer(player)
+        setCurrentPlayer(player)
         setDesignatedHitter(player)
     }
 
-    const submitTeams = e => {
+    const submitTeams = async (e) => {
         e.preventDefault()
-        axios
-            .get(
+        let response1 = await axios.get(
                 `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.homeId}&filters[league][id][$eq]=2`
             )
-            .then(response => {
-                setHomeTeam(
-                    parsePlayers(
-                        response.data.data,
-                        matchData.homeId,
-                        matchData.home
-                    )
-                )
-            })
 
-        axios
-            .get(
+        let team1 = await parsePlayers(response1.data.data, matchData.homeId,matchData.home)
+
+
+            
+
+        let response2 = await axios.get(
                 `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.awayId}&filters[league][id][$eq]=2`
             )
-            .then(response => {
-                setAwayTeam(
-                    parsePlayers(
-                        response.data.data,
-                        matchData.awayId,
-                        matchData.away
-                    )
-                )
-            })
-        if (awayTeam && homeTeam) {
-            navigate('/setup')
-        }
+
+        let team2 = await parsePlayers(
+            response2.data.data,
+            matchData.awayId,
+            matchData.away
+            )
+
+        setHomeTeam(team1)
+        setHomeReserve(team1)
+        setAwayTeam(team2)
+        setAwayReserve(team2)
+        navigate('/setup')
     }
 
-    const handlePlayer = (player, reserves) => {
-        setReserve(reserves)
-        setPlayer(player)
+    const handlePlayer = (player, batters,fielders) => {
+        setFieldList(fielders)
+        setBatterList(batters)
+        setCurrentPlayer(player)
     }
 
     const statUp = (currentPlayer, stat, replace) => {
-        console.log(currentPlayer)
+        
         if (stat === 'out' || stat === 'strikeout') {
             outUp()
         }
@@ -223,7 +223,7 @@ const App = () => {
                       homeBatter.map(player => {
                           if (player.id === currentPlayer.id) {
                               if (!replace) {
-                                  setPlayer({
+                                  setCurrentPlayer({
                                       ...player,
                                       [stat]: player[stat] + 1,
                                   })
@@ -238,7 +238,7 @@ const App = () => {
                       awayBatter.map(player => {
                           if (player.id === currentPlayer.id) {
                               if (!replace) {
-                                  setPlayer({
+                                  setCurrentPlayer({
                                       ...player,
                                       [stat]: player[stat] + 1,
                                   })
@@ -249,22 +249,22 @@ const App = () => {
                       })
                   )
             : currentPlayer.team === matchData.homeId
-            ? setHomeTeam(
-                  homeTeam.map(player => {
+            ? setHomeReserve(
+                  homeReserve.map(player => {
                       if (player.id === currentPlayer.id) {
                           if (!replace) {
-                              setPlayer({...player, [stat]: player[stat] + 1})
+                              setCurrentPlayer({...player, [stat]: player[stat] + 1})
                           }
                           return {...player, [stat]: player[stat] + 1}
                       }
                       return player
                   })
               )
-            : setAwayTeam(
-                  awayTeam.map(player => {
+            : setAwayReserve(
+                  awayReserve.map(player => {
                       if (player.id === currentPlayer.id) {
                           if (!replace) {
-                              setPlayer({...player, [stat]: player[stat] + 1})
+                              setCurrentPlayer({...player, [stat]: player[stat] + 1})
                           }
                           return {...player, [stat]: player[stat] + 1}
                       }
@@ -287,9 +287,9 @@ const App = () => {
                       homeBatter.map(player => {
                           if (player.id === currentPlayer.id) {
                               if (!replace) {
-                                  setPlayer({
+                                  setCurrentPlayer({
                                       ...player,
-                                      [stat]: player[stat] + 1,
+                                      [stat]: player[stat] - 1,
                                   })
                               }
                               return {...player, [stat]: player[stat] - 1}
@@ -301,9 +301,9 @@ const App = () => {
                       awayBatter.map(player => {
                           if (player.id === currentPlayer.id) {
                               if (!replace) {
-                                  setPlayer({
+                                  setCurrentPlayer({
                                       ...player,
-                                      [stat]: player[stat] + 1,
+                                      [stat]: player[stat] - 1,
                                   })
                               }
                               return {...player, [stat]: player[stat] - 1}
@@ -312,22 +312,22 @@ const App = () => {
                       })
                   )
             : currentPlayer.team === matchData.homeId
-            ? setHomeTeam(
-                  homeTeam.map(player => {
+            ? setHomeReserve(
+                  homeReserve.map(player => {
                       if (player.id === currentPlayer.id) {
                           if (!replace) {
-                              setPlayer({...player, [stat]: player[stat] + 1})
+                              setCurrentPlayer({...player, [stat]: player[stat] - 1})
                           }
                           return {...player, [stat]: player[stat] - 1}
                       }
                       return player
                   })
               )
-            : setAwayTeam(
-                  awayTeam.map(player => {
+            : setAwayReserve(
+                  awayReserve.map(player => {
                       if (player.id === currentPlayer.id) {
                           if (!replace) {
-                              setPlayer({...player, [stat]: player[stat] + 1})
+                              setCurrentPlayer({...player, [stat]: player[stat] - 1})
                           }
                           return {...player, [stat]: player[stat] - 1}
                       }
@@ -436,6 +436,7 @@ const App = () => {
             'teamname',
             'hit',
             'double',
+            'triple',
             'run',
             'homerun',
             'out',
@@ -467,12 +468,12 @@ const App = () => {
                     element={
                         <TeamSetup
                             teamNameHome={matchData.home}
-                            homeTeam={homeTeam}
-                            homeTeamBatter={homeBatter}
+                            homeReserve={homeReserve}
+                            homeBatter={homeBatter}
                             updateHomeTeam={updateHomeTeam}
                             teamNameAway={matchData.away}
-                            awayTeam={awayTeam}
-                            awayTeamBatter={awayBatter}
+                            awayReserve={awayReserve}
+                            awayBatter={awayBatter}
                             updateAwayTeam={updateAwayTeam}
                         />
                     }
@@ -483,11 +484,14 @@ const App = () => {
                     exact
                     element={
                         <GameTracker
+                            save={save}
                             designatedHitter={designatedHitter}
-                            awayTeamBatter={awayBatter}
+                            awayBatter={awayBatter}
+                            awayReserve={awayReserve}
                             awayTeam={awayTeam}
                             homeTeam={homeTeam}
-                            homeTeamBatter={homeBatter}
+                            homeBatter={homeBatter}
+                            homeReserve={homeReserve}
                             matchData={matchData}
                             setMatchData={setMatchData}
                             homeRuns={homeRuns}
@@ -498,13 +502,14 @@ const App = () => {
                 />
             </Routes>
             <Modal
-                open={player !== null}
-                onClose={() => setPlayer(null)}
+                open={currentPlayer !== null}
+                onClose={() => setCurrentPlayer(null)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description">
                 <ModalStats
-                    reserve={reserve}
-                    player={player}
+                    batterList={batterList}
+                    fieldList={fieldList}
+                    currentPlayer={currentPlayer}
                     statUp={statUp}
                     statDown={statDown}
                     onHandleDesignatedHitter={handleDesignatedHitter}

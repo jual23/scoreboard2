@@ -7,12 +7,12 @@ import Grid from '@mui/material/Grid'
 
 const TeamSetup = ({
     teamNameHome,
-    homeTeam,
-    homeTeamBatter,
+    homeReserve,
+    homeBatter,
     updateHomeTeam,
     teamNameAway,
-    awayTeam,
-    awayTeamBatter,
+    awayReserve,
+    awayBatter,
     updateAwayTeam,
 }) => {
     const [home, setHome] = useState(true)
@@ -47,8 +47,8 @@ const TeamSetup = ({
             {home && (
                 <SortableList
                     updateTeam={updateHomeTeam}
-                    team={homeTeam}
-                    teamBatter={homeTeamBatter}
+                    teamReserve={homeReserve}
+                    teamBatter={homeBatter}
                     teamId={'home'}
                     teamName={teamNameHome}
                 />
@@ -56,8 +56,8 @@ const TeamSetup = ({
             {!home && (
                 <SortableList
                     updateTeam={updateAwayTeam}
-                    team={awayTeam}
-                    teamBatter={awayTeamBatter}
+                    teamReserve={awayReserve}
+                    teamBatter={awayBatter}
                     teamId={'away'}
                     teamName={teamNameAway}
                 />

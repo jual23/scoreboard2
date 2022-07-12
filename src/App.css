@@ -85,43 +85,9 @@ margin: 10px auto;
 
 
 
-.sideboard {
-margin:10px;
-background-color: #fff;
-flex-basis: 45%;
-}
 
-.sideboard > button {
-  display: block;
-  background-color: #00723b;
-  color: #ffffff;
-  padding: 10px;
-  border: none;
-  width: 90%;
 
-}
 
-.teams-container {
-  display: flex;
-  justify-content: space-evenly;
-}
-.player-list {
-  background-color: #f7f7f7;
-  border-radius: 5px;
-  flex-basis: 47%;
-}
-
-.player-list_team {
-  border-bottom: 1px solid #000;
-  padding: 5px 15px;
-  display: flex;
-  align-items: center;
-}
-
-.player-list_team h2:first-child {
-  flex-basis: 60%;
-  text-align: left;
-}
 
 .player-list_team p {
   margin: 5px 0;
@@ -146,14 +112,12 @@ flex-basis: 45%;
   border-radius: 5px;
 }
 
-
-
 .gender_m {
   border-left:7px solid rgb(89, 198, 218);
 }
 
 .gender_f {
-  border-left:7px solid rgb(247, 172, 213);
+  border-left:7px solid rgb(255, 118, 193);
 }
 
 .player-list_stats {

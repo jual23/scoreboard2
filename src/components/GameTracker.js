@@ -4,25 +4,31 @@ import Scoreboard from './Scoreboard'
 import Stats from './Stats'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
+import { Button } from '@mui/material'
 
 const GameTracker = ({
-    awayTeamBatter,
     awayTeam,
+    awayBatter,
+    awayReserve,
     homeTeam,
-    homeTeamBatter,
+    homeBatter,
+    homeReserve,
     matchData,
     setMatchData,
     homeRuns,
     awayRuns,
     onHandlePlayer,
-    designatedHitter,
+    save
 }) => {
     return (
         <Box sx={{flexGrow: 1}}>
             <Grid container className="main" spacing={3}>
-                <Grid item container xs={12} justifyContent="center">
-                    <Grid item xs={10}>
+                <Grid item container xs={12} justifyContent="space-evenly" alignItems='center'>
+                    <Grid item xs={4}>
                         <MatchInfo matchData={matchData} />
+                    </Grid>
+                    <Grid item xs={4} >
+                        <Button variant='contained' color="secondary" onClick={() => save()}>Guardar Stats</Button>
                     </Grid>
                     <Grid item xs={12}>
                         <Scoreboard
@@ -63,12 +69,13 @@ const GameTracker = ({
                                     <Stats player={designatedHitter} />
                                 </Grid>
                             )} */}
-                            {homeTeamBatter.map(player => (
+                            {homeBatter.map(player => (
                                 <Grid
+                                    key={player.id}
                                     item
                                     xs={10}
                                     onClick={() =>
-                                        onHandlePlayer(player, awayTeam)
+                                        onHandlePlayer(player, homeTeam, awayTeam)
                                     }>
                                     <Stats player={player} />
                                 </Grid>
@@ -86,12 +93,13 @@ const GameTracker = ({
                                 paddingBottom: 3,
                                 borderRadius: 1,
                             }}>
-                            {homeTeam.map(player => (
+                            {homeReserve.map(player => (
                                 <Grid
+                                key={player.id}
                                     item
                                     xs={10}
                                     onClick={() =>
-                                        onHandlePlayer(player, awayTeam)
+                                        onHandlePlayer(player, homeTeam, awayTeam)
                                     }>
                                     <Stats player={player} />
                                 </Grid>
@@ -126,12 +134,13 @@ const GameTracker = ({
                                     <Stats player={designatedHitter} />
                                 </Grid>
                             )} */}
-                            {awayTeamBatter.map(player => (
+                            {awayBatter.map(player => (
                                 <Grid
+                                key={player.id}
                                     item
                                     xs={10}
                                     onClick={() =>
-                                        onHandlePlayer(player, homeTeam)
+                                        onHandlePlayer(player, awayTeam, homeTeam)
                                     }>
                                     <Stats player={player} />
                                 </Grid>
@@ -149,12 +158,13 @@ const GameTracker = ({
                                 paddingBottom: 3,
                                 borderRadius: 1,
                             }}>
-                            {awayTeam.map(player => (
+                            {awayReserve.map(player => (
                                 <Grid
+                                key={player.id}
                                     item
                                     xs={10}
                                     onClick={() =>
-                                        onHandlePlayer(player, homeTeam)
+                                        onHandlePlayer(player, awayTeam, homeTeam)
                                     }>
                                     <Stats player={player} />
                                 </Grid>

@@ -1,12 +1,16 @@
 import StatChanger from './StatChanger'
 import {Autocomplete, TextField, Stack, Grid} from '@mui/material'
 import {useState} from 'react'
-import DoubleArrowIcon from '@mui/icons-material/DoubleArrow'
 import IconButton from '@mui/material/IconButton'
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow'
+
 
 const ModalStats = ({
-    player,
-    reserve,
+    currentPlayer,
+    batterList,
+    fieldList,
     statDown,
     statUp,
     onHandleDesignatedHitter,
@@ -31,55 +35,55 @@ const ModalStats = ({
             }}
             justifyContent="center">
             <Grid item xs={10}>
-                <h3>{player.name}</h3>
+                <h3>{currentPlayer.name}</h3>
             </Grid>
             <Grid item xs={10}>
                 <Stack direction="row" justifyContent="center">
                     <StatChanger
-                        stat={player.hit}
+                        stat={currentPlayer.hit}
                         statText="hit"
                         keyword="H"
                         statDown={statDown}
                         statUp={statUp}
-                        player={player}
+                        currentPlayer={currentPlayer}
                     />
                     <StatChanger
-                        stat={player.double}
+                        stat={currentPlayer.double}
                         statText="double"
                         keyword="2B"
                         statDown={statDown}
                         statUp={statUp}
-                        player={player}
+                        currentPlayer={currentPlayer}
                     />
                     <StatChanger
-                        stat={player.triple}
+                        stat={currentPlayer.triple}
                         statText="triple"
                         keyword="3B"
                         statDown={statDown}
                         statUp={statUp}
-                        player={player}
+                        currentPlayer={currentPlayer}
                     />
                     <StatChanger
-                        stat={player.run}
+                        stat={currentPlayer.run}
                         statText="run"
                         keyword="R"
                         statDown={statDown}
                         statUp={statUp}
-                        player={player}
+                        currentPlayer={currentPlayer}
                     />
                     <StatChanger
-                        stat={player.homerun}
+                        stat={currentPlayer.homerun}
                         statText="homerun"
                         keyword="HR"
                         statDown={statDown}
                         statUp={statUp}
-                        player={player}
+                        currentPlayer={currentPlayer}
                     />
                 </Stack>
             </Grid>
             <Grid item container xs={10} justifyContent="center" rowSpacing={3}>
-                <Grid item container xs={8} justifyContent="center">
-                    <Grid item xs={10}>
+                <Grid item container xs={12} justifyContent="center">
+                    <Grid item xs={6}>
                         <Autocomplete
                             value={valueK}
                             onChange={(event, newValue) => {
@@ -92,22 +96,28 @@ const ModalStats = ({
                             isOptionEqualToValue={(option, value) =>
                                 option === value
                             }
-                            options={opponentReserve}
+                            options={fieldList}
                             getOptionLabel={option => option.number}
                             renderInput={params => (
                                 <TextField {...params} label="Strikeout" />
                             )}
                         />
                     </Grid>
-                    <Grid item xs={2}>
-                        <IconButton
-                            onClick={() => statUp(valueK, 'strikeout', true)}>
-                            {player.strikeout}
+                    <Grid item xs={6}>
+                    <Stack direction="row">
+
+                        <IconButton color="primary" onClick={() => statDown(valueK, 'strikeout', true)}>
+                            <RemoveCircleIcon  sx={{fontSize: 40}}/>
                         </IconButton>
+                        {/* <p>{currentPlayer.strikeout}</p> */}
+                        <IconButton color="primary" onClick={() => statUp(valueK, 'strikeout', true)}>
+                            <AddCircleIcon  sx={{fontSize: 40}}/>
+                        </IconButton>
+                        </Stack>
                     </Grid>
                 </Grid>
-                <Grid item container xs={8} justifyContent="center">
-                    <Grid xs={10}>
+                <Grid item container xs={12} justifyContent="center">
+                    <Grid xs={6}>
                         <Autocomplete
                             value={valueO}
                             onChange={(event, newValue) => {
@@ -120,21 +130,29 @@ const ModalStats = ({
                             isOptionEqualToValue={(option, value) =>
                                 option === value
                             }
-                            options={opponentReserve}
+                            options={fieldList}
                             getOptionLabel={option => option.number}
                             renderInput={params => (
                                 <TextField {...params} label="Out" />
                             )}
                         />
                     </Grid>
-                    <Grid xs={2}>
-                        <IconButton onClick={() => statUp(valueO, 'out', true)}>
-                            {player.out}
+                    <Grid xs={6}>
+                        <Stack direction="row">
+
+                        <IconButton color="primary"onClick={() => statDown(valueO, 'out', true)}>
+                            <RemoveCircleIcon  sx={{fontSize: 40}} />
                         </IconButton>
+                        {/* <p>{currentPlayer.out}</p> */}
+                        <IconButton color="primary" onClick={() => statUp(valueO, 'out', true)}>
+                            <AddCircleIcon  sx={{fontSize: 40}}/>
+                        </IconButton>
+                        </Stack>
+
                     </Grid>
                 </Grid>
-                <Grid item container xs={8} justifyContent="center">
-                    <Grid item xs={10}>
+                <Grid item container xs={12} justifyContent="center">
+                    <Grid item xs={6}>
                         <Autocomplete
                             value={valueD}
                             onChange={(event, newValue) => {
@@ -147,18 +165,18 @@ const ModalStats = ({
                             isOptionEqualToValue={(option, value) =>
                                 option === value
                             }
-                            options={reserve}
+                            options={batterList}
                             getOptionLabel={option => option.number}
                             renderInput={params => (
                                 <TextField {...params} label="Emergente" />
                             )}
                         />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={6}>
                         <IconButton
                             onClick={() => onHandleDesignatedHitter(valueD)}>
                             <DoubleArrowIcon
-                                color="success"
+                                color="primary"
                                 sx={{fontSize: 40}}
                             />
                         </IconButton>

@@ -3,6 +3,9 @@ import Dialog from '@mui/material/Dialog'
 import {useState} from 'react'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 
 const Sideboard = ({matchData, setMatchData}) => {
     const [openTimeout, setOpenTimeout] = useState(false)
@@ -77,7 +80,9 @@ const Sideboard = ({matchData, setMatchData}) => {
         <Grid container justifyContent="space-around">
             <Grid item xs={5}>
                 <Card>
+                    
                     <Grid container justifyContent="center">
+                    <Grid container item xs={10} sx={{textAlign:'center'}}><h2>{matchData.away}</h2></Grid>
                         <Grid item xs={10}>
                             <button
                                 className="primaryButton"
@@ -97,7 +102,9 @@ const Sideboard = ({matchData, setMatchData}) => {
             </Grid>
             <Grid item xs={5}>
                 <Card>
+                
                     <Grid container justifyContent="center">
+                    <Grid item xs={10} sx={{textAlign:'center'}}><h2>{matchData.home}</h2></Grid>
                         <Grid item xs={10}>
                             <button
                                 className="primaryButton"
@@ -115,19 +122,25 @@ const Sideboard = ({matchData, setMatchData}) => {
                     </Grid>
                 </Card>
             </Grid>
-            <Dialog onClose={() => setOpenTimeout(false)} open={openTimeout}>
-                <div>
-                    <h3>¿Desea llamar un timeout?</h3>
-                    <button onClick={() => timeoutConfirm(team)}> Si</button>
-                    <button onClick={() => setOpenTimeout(false)}> No</button>
-                </div>
+            <Dialog onClose={() => setOpenTimeout(false)} open={openTimeout} >
+                <Box sx={{padding:3}}>
+                    <h2>¿Desea llamar un timeout?</h2>
+                    <Stack direction="row" justifyContent="space-evenly">
+                        <Button variant="contained" color="success" onClick={() => timeoutConfirm(team)}> Si</Button>
+                        <Button variant="contained" color="error" onClick={() => setOpenTimeout(false)}> No</Button>
+                    </Stack>
+                    </Box>
             </Dialog>
             <Dialog
                 onClose={() => setOpenChallenge(false)}
                 open={openChallenge}>
-                <h3>¿Se acepta el challenge?</h3>
-                <button onClick={() => challengeWin(team)}> Si</button>
-                <button onClick={() => challengeLose(team)}> No</button>
+                    <Box sx={{padding:3}}>
+                <h2>¿Se acepta el challenge?</h2>
+                <Stack direction="row" justifyContent="space-evenly">
+                    <Button variant="contained" color="success" onClick={() => challengeWin(team)}> Si</Button>
+                    <Button variant="contained" color="error" onClick={() => challengeLose(team)}> No</Button>
+                </Stack>
+                </Box>
             </Dialog>
         </Grid>
     )

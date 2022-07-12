@@ -1,10 +1,11 @@
 import Grid from '@mui/material/Grid'
 import Stack from '@mui/material/Stack'
+import Card from '@mui/material/Card'
+
 const Scoreboard = ({matchData, homeRuns, awayRuns}) => {
     return (
         <Grid
             container
-            xs={11}
             alignItems="center"
             className="scoreboard-container">
             <Grid item container xs={12} alignItems="center">
@@ -18,7 +19,7 @@ const Scoreboard = ({matchData, homeRuns, awayRuns}) => {
                         alignItems="center"
                         justifyContent="space-around">
                         {awayRuns.map(inning => (
-                            <p key={inning.inning}>{inning.runs}</p>
+                            <Card sx={{backgroundColor:"black",color:"red",padding:1}} key={inning.inning}>{inning.runs}</Card>
                         ))}
                     </Stack>
                 </Grid>
@@ -28,9 +29,12 @@ const Scoreboard = ({matchData, homeRuns, awayRuns}) => {
                     <p>{matchData.home}</p>
                 </Grid>
                 <Grid item xs={7}>
-                    <Stack direction="row" xs={10} alignItems="center">
+                    <Stack                         direction="row"
+                        xs={10}
+                        alignItems="center"
+                        justifyContent="space-around">
                         {homeRuns.map(inning => (
-                            <p key={inning.inning}>{inning.runs}</p>
+                            <Card sx={{backgroundColor:"black",color:"red",padding:1}} key={inning.inning}>{inning.runs}</Card>
                         ))}
                     </Stack>
                 </Grid>
