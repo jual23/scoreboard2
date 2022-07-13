@@ -93,8 +93,8 @@ const App = () => {
     // Rosters de bateo y reserva
     const [designatedHitter, setDesignatedHitter] = useState(null)
 
-    const [homeTeam, setHomeTeam] = useState([])
-    const [awayTeam, setAwayTeam] = useState([])
+    const [homeTeamBase, setHomeTeamBase] = useState([])
+    const [awayTeamBase, setAwayTeamBase] = useState([])
     const [homeBatter, setHomeBatter] = useState([])
     const [awayBatter, setAwayBatter] = useState([])
     const [homeReserve, setHomeReserve] = useState([])
@@ -135,7 +135,7 @@ const App = () => {
     }
 
     const updateAwayTeam = result => {
-        console.log(awayTeam)
+        console.log(awayTeamBase)
         let movedItem,
             newBatter = awayBatter,
             newReserve = awayReserve
@@ -163,10 +163,9 @@ const App = () => {
                 newReserve.splice(result.destination.index, 0, movedItem)
             }
         }
-
         setAwayReserve(newReserve)
         setAwayBatter(newBatter)
-        console.log(awayTeam)
+        console.log(awayTeamBase)
     }
 
     const handleDesignatedHitter = player => {
@@ -174,42 +173,42 @@ const App = () => {
         setDesignatedHitter(player)
     }
 
-    const submitTeams = async (e) => {
+    const submitTeams = async e => {
         e.preventDefault()
         let response1 = await axios.get(
-                `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.homeId}&filters[league][id][$eq]=2`
-            )
+            `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.homeId}&filters[league][id][$eq]=2`
+        )
 
-        let team1 = await parsePlayers(response1.data.data, matchData.homeId,matchData.home)
-
-
-            
+        let team1 = await parsePlayers(
+            response1.data.data,
+            matchData.homeId,
+            matchData.home
+        )
 
         let response2 = await axios.get(
-                `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.awayId}&filters[league][id][$eq]=2`
-            )
+            `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.awayId}&filters[league][id][$eq]=2`
+        )
 
         let team2 = await parsePlayers(
             response2.data.data,
             matchData.awayId,
             matchData.away
-            )
+        )
 
-        setHomeTeam(team1)
+        setHomeTeamBase(team1)
         setHomeReserve(team1)
-        setAwayTeam(team2)
+        setAwayTeamBase(team2)
         setAwayReserve(team2)
         navigate('/setup')
     }
 
-    const handlePlayer = (player, batters,fielders) => {
+    const handlePlayer = (player, batters, fielders) => {
         setFieldList(fielders)
         setBatterList(batters)
         setCurrentPlayer(player)
     }
 
     const statUp = (currentPlayer, stat, replace) => {
-        
         if (stat === 'out' || stat === 'strikeout') {
             outUp()
         }
@@ -253,7 +252,10 @@ const App = () => {
                   homeReserve.map(player => {
                       if (player.id === currentPlayer.id) {
                           if (!replace) {
-                              setCurrentPlayer({...player, [stat]: player[stat] + 1})
+                              setCurrentPlayer({
+                                  ...player,
+                                  [stat]: player[stat] + 1,
+                              })
                           }
                           return {...player, [stat]: player[stat] + 1}
                       }
@@ -264,7 +266,10 @@ const App = () => {
                   awayReserve.map(player => {
                       if (player.id === currentPlayer.id) {
                           if (!replace) {
-                              setCurrentPlayer({...player, [stat]: player[stat] + 1})
+                              setCurrentPlayer({
+                                  ...player,
+                                  [stat]: player[stat] + 1,
+                              })
                           }
                           return {...player, [stat]: player[stat] + 1}
                       }
@@ -316,7 +321,10 @@ const App = () => {
                   homeReserve.map(player => {
                       if (player.id === currentPlayer.id) {
                           if (!replace) {
-                              setCurrentPlayer({...player, [stat]: player[stat] - 1})
+                              setCurrentPlayer({
+                                  ...player,
+                                  [stat]: player[stat] - 1,
+                              })
                           }
                           return {...player, [stat]: player[stat] - 1}
                       }
@@ -327,7 +335,10 @@ const App = () => {
                   awayReserve.map(player => {
                       if (player.id === currentPlayer.id) {
                           if (!replace) {
-                              setCurrentPlayer({...player, [stat]: player[stat] - 1})
+                              setCurrentPlayer({
+                                  ...player,
+                                  [stat]: player[stat] - 1,
+                              })
                           }
                           return {...player, [stat]: player[stat] - 1}
                       }
@@ -427,7 +438,7 @@ const App = () => {
     }
 
     const save = () => {
-        const data = homeTeam.concat(awayTeam)
+        const data = homeTeamBase.concat(awayTeamBase)
         const filename = `${matchData.home} vs ${matchData.away}`
         const exportType = 'xls'
         const fields = [
@@ -488,8 +499,8 @@ const App = () => {
                             designatedHitter={designatedHitter}
                             awayBatter={awayBatter}
                             awayReserve={awayReserve}
-                            awayTeam={awayTeam}
-                            homeTeam={homeTeam}
+                            awayTeam={awayTeamBase}
+                            homeTeam={homeTeamBase}
                             homeBatter={homeBatter}
                             homeReserve={homeReserve}
                             matchData={matchData}

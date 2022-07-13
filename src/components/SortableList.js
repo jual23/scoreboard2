@@ -4,8 +4,15 @@ import {Droppable} from 'react-beautiful-dnd'
 import Grid from '@mui/material/Grid'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import Stats from './Stats'
+import SignatureCanvas from 'react-signature-canvas'
 
-const SortableList = ({teamReserve, teamName, teamBatter, teamId, updateTeam}) => {
+const SortableList = ({
+    teamReserve,
+    teamName,
+    teamBatter,
+    teamId,
+    updateTeam,
+}) => {
     return (
         <div>
             <DragDropContext onDragEnd={updateTeam}>
@@ -109,8 +116,18 @@ const SortableList = ({teamReserve, teamName, teamBatter, teamId, updateTeam}) =
                     </Droppable>
                 </Grid>
             </DragDropContext>
-            <Grid container>
-                <Grid item xs={10}></Grid>
+            <Grid container justifyContent="center">
+                <Grid
+                    item
+                    xs={10}
+                    sx={{backgroundColor: 'white', borderRadius: 2}}>
+                    <SignatureCanvas
+                        canvasProps={{
+                            height: 300,
+                            width: 320,
+                        }}
+                    />
+                </Grid>
             </Grid>
         </div>
     )
