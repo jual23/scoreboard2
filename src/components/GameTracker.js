@@ -1,6 +1,7 @@
 import MatchInfo from './MatchInfo'
 import Sideboard from './Sideboard'
 import Scoreboard from './Scoreboard'
+import Pitcherbox from './Pitcherbox'
 import Stats from './Stats'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
@@ -18,6 +19,8 @@ const GameTracker = ({
     homeRuns,
     awayRuns,
     onHandlePlayer,
+    currentPitcher,
+    onHandlePitcher,
     save
 }) => {
     return (
@@ -44,6 +47,9 @@ const GameTracker = ({
                             home={true}
                         />
                     </Grid>
+                </Grid>
+                <Grid item container justifyContent="space-around" xs={12}>
+                    <Pitcherbox currentPitcher={currentPitcher} onHandlePitcher={onHandlePitcher} awayTeam={awayTeam} homeTeam={homeTeam}/>
                 </Grid>
                 {matchData.bottomHalf === true ? (
                     <Grid item container justifyContent="space-around" xs={12}>

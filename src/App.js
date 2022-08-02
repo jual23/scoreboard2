@@ -27,6 +27,7 @@ const App = () => {
     }, [])
 
     const [currentPlayer, setCurrentPlayer] = useState(null)
+    const [currentPitcher, setCurrentPitcher] = useState(null)
 
     const [matchData, setMatchData] = useState({
         home: '',
@@ -86,6 +87,10 @@ const App = () => {
                 basebola: 0,
                 errores: 0,
                 impulsadas: 0,
+                hitspermitidos:0,
+                enfrentados: 0,
+                carreraspermitidas: 0,
+                bbconcedida:0
             }
             output.push(p)
         }
@@ -169,6 +174,11 @@ const App = () => {
         setAwayReserve(newReserve)
         setAwayBatter(newBatter)
         console.log(awayTeamBase)
+    }
+
+    const handleCurrentPitcher = player => {
+        console.log(player)
+        setCurrentPitcher(player)
     }
 
     const handleDesignatedHitter = player => {
@@ -511,6 +521,8 @@ const App = () => {
                             homeRuns={homeRuns}
                             awayRuns={awayRuns}
                             onHandlePlayer={handlePlayer}
+                            currentPitcher={currentPitcher}
+                            onHandlePitcher={handleCurrentPitcher}
                         />
                     }
                 />
