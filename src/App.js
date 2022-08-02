@@ -83,6 +83,9 @@ const App = () => {
                 homerun: 0,
                 out: 0,
                 strikeout: 0,
+                basebola: 0,
+                errores: 0,
+                impulsadas: 0,
             }
             output.push(p)
         }

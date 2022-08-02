@@ -2,10 +2,9 @@ import StatChanger from './StatChanger'
 import {Autocomplete, TextField, Stack, Grid} from '@mui/material'
 import {useState} from 'react'
 import IconButton from '@mui/material/IconButton'
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow'
-
 
 const ModalStats = ({
     currentPlayer,
@@ -81,6 +80,26 @@ const ModalStats = ({
                     />
                 </Stack>
             </Grid>
+            <Grid item xs={10}>
+                <Stack direction="row" justifyContent="center">
+                    <StatChanger
+                        stat={currentPlayer.basebola}
+                        statText="basebola"
+                        keyword="BB"
+                        statDown={statDown}
+                        statUp={statUp}
+                        currentPlayer={currentPlayer}
+                    />
+                    <StatChanger
+                        stat={currentPlayer.impulsadas}
+                        statText="impulsadas"
+                        keyword="CI"
+                        statDown={statDown}
+                        statUp={statUp}
+                        currentPlayer={currentPlayer}
+                    />
+                </Stack>
+            </Grid>
             <Grid item container xs={10} justifyContent="center" rowSpacing={3}>
                 <Grid item container xs={12} justifyContent="center">
                     <Grid item xs={6}>
@@ -104,15 +123,22 @@ const ModalStats = ({
                         />
                     </Grid>
                     <Grid item xs={6}>
-                    <Stack direction="row">
-
-                        <IconButton color="primary" onClick={() => statDown(valueK, 'strikeout', true)}>
-                            <RemoveCircleIcon  sx={{fontSize: 40}}/>
-                        </IconButton>
-                        {/* <p>{currentPlayer.strikeout}</p> */}
-                        <IconButton color="primary" onClick={() => statUp(valueK, 'strikeout', true)}>
-                            <AddCircleIcon  sx={{fontSize: 40}}/>
-                        </IconButton>
+                        <Stack direction="row">
+                            <IconButton
+                                color="primary"
+                                onClick={() =>
+                                    statDown(valueK, 'strikeout', true)
+                                }>
+                                <RemoveCircleIcon sx={{fontSize: 40}} />
+                            </IconButton>
+                            {/* <p>{currentPlayer.strikeout}</p> */}
+                            <IconButton
+                                color="primary"
+                                onClick={() =>
+                                    statUp(valueK, 'strikeout', true)
+                                }>
+                                <AddCircleIcon sx={{fontSize: 40}} />
+                            </IconButton>
                         </Stack>
                     </Grid>
                 </Grid>
@@ -139,16 +165,18 @@ const ModalStats = ({
                     </Grid>
                     <Grid xs={6}>
                         <Stack direction="row">
-
-                        <IconButton color="primary"onClick={() => statDown(valueO, 'out', true)}>
-                            <RemoveCircleIcon  sx={{fontSize: 40}} />
-                        </IconButton>
-                        {/* <p>{currentPlayer.out}</p> */}
-                        <IconButton color="primary" onClick={() => statUp(valueO, 'out', true)}>
-                            <AddCircleIcon  sx={{fontSize: 40}}/>
-                        </IconButton>
+                            <IconButton
+                                color="primary"
+                                onClick={() => statDown(valueO, 'out', true)}>
+                                <RemoveCircleIcon sx={{fontSize: 40}} />
+                            </IconButton>
+                            {/* <p>{currentPlayer.out}</p> */}
+                            <IconButton
+                                color="primary"
+                                onClick={() => statUp(valueO, 'out', true)}>
+                                <AddCircleIcon sx={{fontSize: 40}} />
+                            </IconButton>
                         </Stack>
-
                     </Grid>
                 </Grid>
                 <Grid item container xs={12} justifyContent="center">
