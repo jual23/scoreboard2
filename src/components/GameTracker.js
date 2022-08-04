@@ -5,7 +5,7 @@ import Pitcherbox from './Pitcherbox'
 import Stats from './Stats'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import { Button } from '@mui/material'
+import {Button, Card} from '@mui/material'
 
 const GameTracker = ({
     awayTeam,
@@ -21,17 +21,27 @@ const GameTracker = ({
     onHandlePlayer,
     currentPitcher,
     onHandlePitcher,
-    save
+    save,
 }) => {
     return (
         <Box sx={{flexGrow: 1}}>
             <Grid container className="main" spacing={3}>
-                <Grid item container xs={12} justifyContent="space-evenly" alignItems='center'>
+                <Grid
+                    item
+                    container
+                    xs={12}
+                    justifyContent="space-evenly"
+                    alignItems="center">
                     <Grid item xs={4}>
                         <MatchInfo matchData={matchData} />
                     </Grid>
-                    <Grid item xs={4} >
-                        <Button variant='contained' color="secondary" onClick={() => save()}>Guardar Stats</Button>
+                    <Grid item xs={4}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => save()}>
+                            Guardar Stats
+                        </Button>
                     </Grid>
                     <Grid item xs={12}>
                         <Scoreboard
@@ -49,7 +59,14 @@ const GameTracker = ({
                     </Grid>
                 </Grid>
                 <Grid item container justifyContent="space-around" xs={12}>
-                    <Pitcherbox currentPitcher={currentPitcher} onHandlePitcher={onHandlePitcher} awayTeam={awayTeam} homeTeam={homeTeam}/>
+                    <Card>
+                        <Pitcherbox
+                            currentPitcher={currentPitcher}
+                            onHandlePitcher={onHandlePitcher}
+                            awayTeam={awayTeam}
+                            homeTeam={homeTeam}
+                        />
+                    </Card>
                 </Grid>
                 {matchData.bottomHalf === true ? (
                     <Grid item container justifyContent="space-around" xs={12}>
@@ -81,7 +98,11 @@ const GameTracker = ({
                                     item
                                     xs={10}
                                     onClick={() =>
-                                        onHandlePlayer(player, homeTeam, awayTeam)
+                                        onHandlePlayer(
+                                            player,
+                                            homeTeam,
+                                            awayTeam
+                                        )
                                     }>
                                     <Stats player={player} />
                                 </Grid>
@@ -101,11 +122,15 @@ const GameTracker = ({
                             }}>
                             {homeReserve.map(player => (
                                 <Grid
-                                key={player.id}
+                                    key={player.id}
                                     item
                                     xs={10}
                                     onClick={() =>
-                                        onHandlePlayer(player, homeTeam, awayTeam)
+                                        onHandlePlayer(
+                                            player,
+                                            homeTeam,
+                                            awayTeam
+                                        )
                                     }>
                                     <Stats player={player} />
                                 </Grid>
@@ -142,11 +167,15 @@ const GameTracker = ({
                             )} */}
                             {awayBatter.map(player => (
                                 <Grid
-                                key={player.id}
+                                    key={player.id}
                                     item
                                     xs={10}
                                     onClick={() =>
-                                        onHandlePlayer(player, awayTeam, homeTeam)
+                                        onHandlePlayer(
+                                            player,
+                                            awayTeam,
+                                            homeTeam
+                                        )
                                     }>
                                     <Stats player={player} />
                                 </Grid>
@@ -166,11 +195,15 @@ const GameTracker = ({
                             }}>
                             {awayReserve.map(player => (
                                 <Grid
-                                key={player.id}
+                                    key={player.id}
                                     item
                                     xs={10}
                                     onClick={() =>
-                                        onHandlePlayer(player, awayTeam, homeTeam)
+                                        onHandlePlayer(
+                                            player,
+                                            awayTeam,
+                                            homeTeam
+                                        )
                                     }>
                                     <Stats player={player} />
                                 </Grid>

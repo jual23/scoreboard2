@@ -87,10 +87,10 @@ const App = () => {
                 basebola: 0,
                 errores: 0,
                 impulsadas: 0,
-                hitspermitidos:0,
+                hitspermitidos: 0,
                 enfrentados: 0,
                 carreraspermitidas: 0,
-                bbconcedida:0
+                bbconcedida: 0,
             }
             output.push(p)
         }
@@ -221,6 +221,84 @@ const App = () => {
         setCurrentPlayer(player)
     }
 
+    const pitcherStatUp = pstat => {
+        console.log(currentPitcher)
+        console.log(matchData)
+        currentPitcher.role === 1
+            ? currentPitcher.team === matchData.homeId
+                ? setHomeBatter(
+                      homeBatter.map(player => {
+                          if (player.id === currentPlayer.id) {
+                              return {...player, [pstat]: player[pstat] + 1}
+                          }
+                          return player
+                      })
+                  )
+                : setAwayBatter(
+                      awayBatter.map(player => {
+                          if (player.id === currentPlayer.id) {
+                              return {...player, [pstat]: player[pstat] + 1}
+                          }
+                          return player
+                      })
+                  )
+            : currentPitcher.team === matchData.homeId
+            ? setHomeReserve(
+                  homeReserve.map(player => {
+                      if (player.id === currentPitcher.id) {
+                          return {...player, [pstat]: player[pstat] + 1}
+                      }
+                      return player
+                  })
+              )
+            : setAwayReserve(
+                  awayReserve.map(player => {
+                      if (player.id === currentPitcher.id) {
+                          return {...player, [pstat]: player[pstat] + 1}
+                      }
+                      return player
+                  })
+              )
+    }
+
+    const pitcherStatDown = pstat => {
+        currentPitcher.role === 1
+            ? currentPitcher.team === matchData.homeId
+                ? setHomeBatter(
+                      homeBatter.map(player => {
+                          if (player.id === currentPlayer.id) {
+                              return {...player, [pstat]: player[pstat] - 1}
+                          }
+                          return player
+                      })
+                  )
+                : setAwayBatter(
+                      awayBatter.map(player => {
+                          if (player.id === currentPlayer.id) {
+                              return {...player, [pstat]: player[pstat] - 1}
+                          }
+                          return player
+                      })
+                  )
+            : currentPitcher.team === matchData.homeId
+            ? setHomeReserve(
+                  homeReserve.map(player => {
+                      if (player.id === currentPitcher.id) {
+                          return {...player, [pstat]: player[pstat] - 1}
+                      }
+                      return player
+                  })
+              )
+            : setAwayReserve(
+                  awayReserve.map(player => {
+                      if (player.id === currentPitcher.id) {
+                          return {...player, [pstat]: player[pstat] - 1}
+                      }
+                      return player
+                  })
+              )
+    }
+
     const statUp = (currentPlayer, stat, replace) => {
         if (stat === 'out' || stat === 'strikeout') {
             outUp()
@@ -228,6 +306,20 @@ const App = () => {
         if (stat === 'run' || stat === 'homerun') {
             runUp()
         }
+
+        if (stat === 'basebola') {
+            pitcherStatUp('bbconcedida')
+        }
+
+        if (stat === 'run') {
+            pitcherStatUp('carreraspermitidas')
+        }
+
+        if (stat === 'hit') {
+            pitcherStatUp('hitspermitidos')
+        }
+
+        pitcherStatUp('enfrentados')
 
         currentPlayer.role === 1
             ? currentPlayer.team === matchData.homeId
@@ -298,6 +390,20 @@ const App = () => {
         if (stat === 'run' || stat === 'homerun') {
             runDown()
         }
+
+        if (stat === 'basebola') {
+            pitcherStatDown('bbconcedida')
+        }
+
+        if (stat === 'run') {
+            pitcherStatDown('carreraspermitidas')
+        }
+
+        if (stat === 'hit') {
+            pitcherStatDown('hitspermitidos')
+        }
+
+        pitcherStatDown('enfrentados')
 
         currentPlayer.role === 1
             ? currentPlayer.team === matchData.homeId
@@ -451,7 +557,9 @@ const App = () => {
     }
 
     const save = () => {
-        const data = homeTeamBase.concat(awayTeamBase)
+        const data = homeBatter.concat(
+            homeReserve.concat(awayBatter.concat(awayReserve))
+        )
         const filename = `${matchData.home} vs ${matchData.away}`
         const exportType = 'xls'
         const fields = [
@@ -465,8 +573,13 @@ const App = () => {
             'homerun',
             'out',
             'strikeout',
-            'pateador',
-            'corredor',
+            'basebola',
+            'errores',
+            'impulsadas',
+            'hitspermitidos',
+            'enfrentados',
+            'carreraspermitidas',
+            'bbconcedida',
         ]
         exportFromJSON({data, filename, fields, exportType})
     }

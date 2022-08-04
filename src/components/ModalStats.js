@@ -16,6 +16,8 @@ const ModalStats = ({
 }) => {
     const [valueD, setValueD] = useState()
     const [inputValueD, setInputValueD] = useState()
+    const [valueE, setValueE] = useState()
+    const [inputValueE, setInputValueE] = useState()
     const [valueK, setValueK] = useState()
     const [inputValueK, setInputValueK] = useState()
     const [valueO, setValueO] = useState()
@@ -137,6 +139,45 @@ const ModalStats = ({
                                 onClick={() =>
                                     statUp(valueK, 'strikeout', true)
                                 }>
+                                <AddCircleIcon sx={{fontSize: 40}} />
+                            </IconButton>
+                        </Stack>
+                    </Grid>
+                </Grid>
+                <Grid item container xs={12} justifyContent="center">
+                    <Grid item xs={6}>
+                        <Autocomplete
+                            value={valueE}
+                            onChange={(event, newValue) => {
+                                setValueE(newValue)
+                            }}
+                            inputValue={inputValueE}
+                            onInputChange={(event, newInputValue) => {
+                                setInputValueE(newInputValue)
+                            }}
+                            isOptionEqualToValue={(option, value) =>
+                                option === value
+                            }
+                            options={fieldList}
+                            getOptionLabel={option => option.number}
+                            renderInput={params => (
+                                <TextField {...params} label="Error" />
+                            )}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Stack direction="row">
+                            <IconButton
+                                color="primary"
+                                onClick={() =>
+                                    statDown(valueK, 'errores', true)
+                                }>
+                                <RemoveCircleIcon sx={{fontSize: 40}} />
+                            </IconButton>
+                            {/* <p>{currentPlayer.strikeout}</p> */}
+                            <IconButton
+                                color="primary"
+                                onClick={() => statUp(valueK, 'errores', true)}>
                                 <AddCircleIcon sx={{fontSize: 40}} />
                             </IconButton>
                         </Stack>
