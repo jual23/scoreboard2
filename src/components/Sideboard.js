@@ -97,6 +97,12 @@ const Sideboard = ({matchData, setMatchData}) => {
                                 Challenge: {matchData.awayChallenge}
                             </button>
                         </Grid>
+                        <Grid item xs={10}>
+                            <button
+                                className="primaryButton">
+                                Emergente: {matchData.awayDesignated}
+                            </button>
+                        </Grid>
                     </Grid>
                 </Card>
             </Grid>
@@ -117,6 +123,12 @@ const Sideboard = ({matchData, setMatchData}) => {
                                 className="primaryButton"
                                 onClick={() => handleOpenChallenge(1)}>
                                 Challenge: {matchData.homeChallenge}
+                            </button>
+                        </Grid>
+                        <Grid item xs={10}>
+                            <button
+                                className="primaryButton">
+                                Emergente: {matchData.homeDesignated}
                             </button>
                         </Grid>
                     </Grid>

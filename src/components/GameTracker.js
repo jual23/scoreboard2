@@ -65,6 +65,7 @@ const GameTracker = ({
                             onHandlePitcher={onHandlePitcher}
                             awayTeam={awayTeam}
                             homeTeam={homeTeam}
+                            matchData={matchData}
                         />
                     </Card>
                 </Grid>
