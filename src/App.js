@@ -41,8 +41,8 @@ const App = () => {
         homeTimeout: 2,
         awayChallenge: 2,
         homeChallenge: 2,
-        awayDesignated:2,
-        homeDesignated:2,
+        awayDesignated: 2,
+        homeDesignated: 2,
     })
 
     // Data de equipos
@@ -184,20 +184,29 @@ const App = () => {
     }
 
     const handleDesignatedHitter = player => {
-       
-        matchData.bottomHalf === true 
-        ? matchData.homeDesignated > 0 
-            ? (
-            setCurrentPlayer(player),
-            setDesignatedHitter(player),
-            setMatchData({...matchData,homeDesignated:matchData.homeDesignated - 1}) )
-            : alert("No quedan emergentes")
-        : matchData.awayDesignated > 0 
-            ? (
-                setCurrentPlayer(player),
-                setDesignatedHitter(player),
-                setMatchData({...matchData,homeDesignated:matchData.awayDesignated - 1}))
-                : alert("No quedan emergentes")
+        if (matchData.bottomHalf === true) {
+            if (matchData.homeDesignated > 0) {
+                setCurrentPlayer(player)
+                setDesignatedHitter(player)
+                setMatchData({
+                    ...matchData,
+                    homeDesignated: matchData.homeDesignated - 1,
+                })
+            } else {
+                alert('No quedan emergentes')
+            }
+        } else {
+            if (matchData.awayDesignated > 0) {
+                setCurrentPlayer(player)
+                setDesignatedHitter(player)
+                setMatchData({
+                    ...matchData,
+                    awayDesignated: matchData.awayDesignated - 1,
+                })
+            } else {
+                alert('No quedan emergentes')
+            }
+        }
     }
 
     const submitTeams = async e => {
@@ -241,7 +250,11 @@ const App = () => {
                 ? setHomeBatter(
                       homeBatter.map(player => {
                           if (player.id === currentPlayer.id) {
-                              return {...player, [pstat]: player[pstat] + 1, enfrentados:player.enfrentados + 1}
+                              return {
+                                  ...player,
+                                  [pstat]: player[pstat] + 1,
+                                  enfrentados: player.enfrentados + 1,
+                              }
                           }
                           return player
                       })
@@ -249,7 +262,11 @@ const App = () => {
                 : setAwayBatter(
                       awayBatter.map(player => {
                           if (player.id === currentPlayer.id) {
-                              return {...player, [pstat]: player[pstat] + 1, enfrentados:player.enfrentados + 1}
+                              return {
+                                  ...player,
+                                  [pstat]: player[pstat] + 1,
+                                  enfrentados: player.enfrentados + 1,
+                              }
                           }
                           return player
                       })
@@ -258,8 +275,11 @@ const App = () => {
             ? setHomeReserve(
                   homeReserve.map(player => {
                       if (player.id === currentPitcher.id) {
-                        
-                          return {...player, [pstat]: player[pstat] + 1, enfrentados:player.enfrentados + 1}
+                          return {
+                              ...player,
+                              [pstat]: player[pstat] + 1,
+                              enfrentados: player.enfrentados + 1,
+                          }
                       }
                       return player
                   })
@@ -267,9 +287,13 @@ const App = () => {
             : setAwayReserve(
                   awayReserve.map(player => {
                       if (player.id === currentPitcher.id) {
-                        console.log('1')
-                        player = {...player, [pstat]: player[pstat] + 1, enfrentados:player.enfrentados + 1}
-                        return player
+                          console.log('1')
+                          player = {
+                              ...player,
+                              [pstat]: player[pstat] + 1,
+                              enfrentados: player.enfrentados + 1,
+                          }
+                          return player
                       }
                       return player
                   })
@@ -282,7 +306,11 @@ const App = () => {
                 ? setHomeBatter(
                       homeBatter.map(player => {
                           if (player.id === currentPlayer.id) {
-                              return {...player, [pstat]: player[pstat] - 1, enfrentados:player.enfrentados -1}
+                              return {
+                                  ...player,
+                                  [pstat]: player[pstat] - 1,
+                                  enfrentados: player.enfrentados - 1,
+                              }
                           }
                           return player
                       })
@@ -290,7 +318,11 @@ const App = () => {
                 : setAwayBatter(
                       awayBatter.map(player => {
                           if (player.id === currentPlayer.id) {
-                              return {...player, [pstat]: player[pstat] - 1, enfrentados:player.enfrentados -1}
+                              return {
+                                  ...player,
+                                  [pstat]: player[pstat] - 1,
+                                  enfrentados: player.enfrentados - 1,
+                              }
                           }
                           return player
                       })
@@ -299,7 +331,11 @@ const App = () => {
             ? setHomeReserve(
                   homeReserve.map(player => {
                       if (player.id === currentPitcher.id) {
-                          return {...player, [pstat]: player[pstat] - 1, enfrentados:player.enfrentados -1}
+                          return {
+                              ...player,
+                              [pstat]: player[pstat] - 1,
+                              enfrentados: player.enfrentados - 1,
+                          }
                       }
                       return player
                   })
@@ -307,8 +343,11 @@ const App = () => {
             : setAwayReserve(
                   awayReserve.map(player => {
                       if (player.id === currentPitcher.id) {
-                          return {...player, [pstat]: player[pstat] - 1, enfrentados:player.enfrentados -1}
-                          
+                          return {
+                              ...player,
+                              [pstat]: player[pstat] - 1,
+                              enfrentados: player.enfrentados - 1,
+                          }
                       }
                       return player
                   })
@@ -335,40 +374,25 @@ const App = () => {
             pitcherStatUp('hitspermitidos')
         }
 
-            currentPlayer.role === 1
-                ? currentPlayer.team === matchData.homeId
-                    ? setHomeBatter(
-                          homeBatter.map(player => {
-                              if (player.id === currentPlayer.id) {
-                                  if (!replace) {
-                                      setCurrentPlayer({
-                                          ...player,
-                                          [stat]: player[stat] + 1,
-                                      })
-                                  }
+        currentPlayer.role === 1
+            ? currentPlayer.team === matchData.homeId
+                ? setHomeBatter(
+                      homeBatter.map(player => {
+                          if (player.id === currentPlayer.id) {
+                              if (!replace) {
+                                  setCurrentPlayer({
+                                      ...player,
+                                      [stat]: player[stat] + 1,
+                                  })
+                              }
 
-                                  return {...player, [stat]: player[stat] + 1}
-                              }
-                              return player
-                          })
-                      )
-                    : setAwayBatter(
-                          awayBatter.map(player => {
-                              if (player.id === currentPlayer.id) {
-                                  if (!replace) {
-                                      setCurrentPlayer({
-                                          ...player,
-                                          [stat]: player[stat] + 1,
-                                      })
-                                  }
-                                  return {...player, [stat]: player[stat] + 1}
-                              }
-                              return player
-                          })
-                      )
-                : currentPlayer.team === matchData.homeId
-                ? setHomeReserve(
-                      homeReserve.map(player => {
+                              return {...player, [stat]: player[stat] + 1}
+                          }
+                          return player
+                      })
+                  )
+                : setAwayBatter(
+                      awayBatter.map(player => {
                           if (player.id === currentPlayer.id) {
                               if (!replace) {
                                   setCurrentPlayer({
@@ -381,20 +405,35 @@ const App = () => {
                           return player
                       })
                   )
-                : setAwayReserve(
-                      awayReserve.map(player => {
-                          if (player.id === currentPlayer.id) {
-                              if (!replace) {
-                                  setCurrentPlayer({
-                                      ...player,
-                                      [stat]: player[stat] + 1,
-                                  })
-                              }
-                              return {...player, [stat]: player[stat] + 1}
+            : currentPlayer.team === matchData.homeId
+            ? setHomeReserve(
+                  homeReserve.map(player => {
+                      if (player.id === currentPlayer.id) {
+                          if (!replace) {
+                              setCurrentPlayer({
+                                  ...player,
+                                  [stat]: player[stat] + 1,
+                              })
                           }
-                          return player
-                      })
-                  )
+                          return {...player, [stat]: player[stat] + 1}
+                      }
+                      return player
+                  })
+              )
+            : setAwayReserve(
+                  awayReserve.map(player => {
+                      if (player.id === currentPlayer.id) {
+                          if (!replace) {
+                              setCurrentPlayer({
+                                  ...player,
+                                  [stat]: player[stat] + 1,
+                              })
+                          }
+                          return {...player, [stat]: player[stat] + 1}
+                      }
+                      return player
+                  })
+              )
     }
 
     const statDown = (currentPlayer, stat, replace) => {
