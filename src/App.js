@@ -19,7 +19,7 @@ const App = () => {
     useEffect(() => {
         axios
             .get(
-                'https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/leagues?fields[0]=name&populate[logo][fields][0]=url&populate[teams][fields][0]=name&populate[teams][populate][logo][fields][0]=url&filters[id]=2'
+                'https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/leagues?fields[0]=name&populate[logo][fields][0]=url&populate[teams][fields][0]=name&populate[teams][populate][logo][fields][0]=url&filters[id]=3'
             )
             .then(response => {
                 setTeams(response.data.data[0].attributes.teams.data)
@@ -103,8 +103,8 @@ const App = () => {
     // Rosters de bateo y reserva
     const [designatedHitter, setDesignatedHitter] = useState(null)
 
-    const [homeTeamBase, setHomeTeamBase] = useState([])
-    const [awayTeamBase, setAwayTeamBase] = useState([])
+    const [homeTeamFull, setHomeTeamFull] = useState([])
+    const [awayTeamFull, setAwayTeamFull] = useState([])
     const [homeBatter, setHomeBatter] = useState([])
     const [awayBatter, setAwayBatter] = useState([])
     const [homeReserve, setHomeReserve] = useState([])
@@ -145,7 +145,7 @@ const App = () => {
     }
 
     const updateAwayTeam = result => {
-        console.log(awayTeamBase)
+        console.log(awayTeamFull)
         let movedItem,
             newBatter = awayBatter,
             newReserve = awayReserve
@@ -175,7 +175,7 @@ const App = () => {
         }
         setAwayReserve(newReserve)
         setAwayBatter(newBatter)
-        console.log(awayTeamBase)
+        console.log(awayTeamFull)
     }
 
     const handleCurrentPitcher = player => {
@@ -210,9 +210,10 @@ const App = () => {
     }
 
     const submitTeams = async e => {
+        console.log('entra a submit teams')
         e.preventDefault()
         let response1 = await axios.get(
-            `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.homeId}&filters[league][id][$eq]=2`
+            `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.homeId}&filters[league][id][$eq]=3`
         )
 
         let team1 = await parsePlayers(
@@ -222,7 +223,7 @@ const App = () => {
         )
 
         let response2 = await axios.get(
-            `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.awayId}&filters[league][id][$eq]=2`
+            `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.awayId}&filters[league][id][$eq]=3`
         )
 
         let team2 = await parsePlayers(
@@ -230,11 +231,14 @@ const App = () => {
             matchData.awayId,
             matchData.away
         )
+        console.log(team1)
+        console.log(typeof team1)
+        setHomeTeamFull([...team1])
+        setHomeReserve([...team1])
 
-        setHomeTeamBase(team1)
-        setHomeReserve(team1)
-        setAwayTeamBase(team2)
-        setAwayReserve(team2)
+        setAwayTeamFull([...team2])
+        setAwayReserve([...team2])
+
         navigate('/setup')
     }
 
@@ -678,8 +682,8 @@ const App = () => {
                             designatedHitter={designatedHitter}
                             awayBatter={awayBatter}
                             awayReserve={awayReserve}
-                            awayTeam={awayTeamBase}
-                            homeTeam={homeTeamBase}
+                            awayTeam={awayTeamFull}
+                            homeTeam={homeTeamFull}
                             homeBatter={homeBatter}
                             homeReserve={homeReserve}
                             matchData={matchData}

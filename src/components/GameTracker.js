@@ -71,6 +71,9 @@ const GameTracker = ({
                 </Grid>
                 {matchData.bottomHalf === true ? (
                     <Grid item container justifyContent="space-around" xs={12}>
+                        <Grid item xs={11} justifyContent="center">
+                            <h2>{matchData.home}</h2>
+                        </Grid>
                         <Grid
                             item
                             xs={11}
@@ -83,16 +86,6 @@ const GameTracker = ({
                                 paddingBottom: 3,
                                 borderRadius: 1,
                             }}>
-                            {/* {designatedHitter && (
-                                <Grid
-                                    item
-                                    xs={10}
-                                    onClick={() =>
-                                        onHandlePlayer(designatedHitter)
-                                    }>
-                                    <Stats player={designatedHitter} />
-                                </Grid>
-                            )} */}
                             {homeBatter.map(player => (
                                 <Grid
                                     key={player.id}
@@ -144,6 +137,9 @@ const GameTracker = ({
                         container
                         justifyContent="space-around"
                         rowSpacing={1}>
+                        <Grid item xs={11} justifyContent="center">
+                            <h2>{matchData.away}</h2>
+                        </Grid>
                         <Grid
                             container
                             item
