@@ -27,17 +27,18 @@ const ModalStats = ({
             container
             sx={{
                 backgroundColor: 'white',
-                width: '80%',
+                width: '92%',
                 padding: '20px 0',
                 position: 'absolute',
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
+                borderRadius:2
             }}
             justifyContent="center">
-            <Grid item xs={10}>
+            {/* <Grid item xs={10}>
                 <h3>{currentPlayer.name}</h3>
-            </Grid>
+            </Grid> */}
             <Grid item xs={10}>
                 <Stack direction="row" justifyContent="center">
                     <StatChanger
@@ -80,11 +81,7 @@ const ModalStats = ({
                         statUp={statUp}
                         currentPlayer={currentPlayer}
                     />
-                </Stack>
-            </Grid>
-            <Grid item xs={10}>
-                <Stack direction="row" justifyContent="center">
-                    <StatChanger
+                                        <StatChanger
                         stat={currentPlayer.basebola}
                         statText="basebola"
                         keyword="BB"
@@ -100,6 +97,11 @@ const ModalStats = ({
                         statUp={statUp}
                         currentPlayer={currentPlayer}
                     />
+                </Stack>
+            </Grid>
+            <Grid item xs={10}>
+                <Stack direction="row" justifyContent="center">
+
                 </Stack>
             </Grid>
             <Grid item container xs={10} justifyContent="center" rowSpacing={3}>

@@ -147,7 +147,7 @@ const Sideboard = ({matchData, setMatchData}) => {
                 onClose={() => setOpenChallenge(false)}
                 open={openChallenge}>
                     <Box sx={{padding:3}}>
-                <h2>¿Se acepta el challenge?</h2>
+                <h2>¿Se gana el challenge?</h2>
                 <Stack direction="row" justifyContent="space-evenly">
                     <Button variant="contained" color="success" onClick={() => challengeWin(team)}> Si</Button>
                     <Button variant="contained" color="error" onClick={() => challengeLose(team)}> No</Button>
