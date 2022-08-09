@@ -7,8 +7,10 @@ body {
   margin: auto;
 }
 
-h2 {
+h2,h3,h4 {
   font-family: 'Raleway';
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
 ul {
