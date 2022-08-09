@@ -36,9 +36,9 @@ const ModalStats = ({
                 borderRadius:2
             }}
             justifyContent="center">
-            {/* <Grid item xs={10}>
+            <Grid item xs={10}>
                 <h3>{currentPlayer.name}</h3>
-            </Grid> */}
+            </Grid>
             <Grid item xs={10}>
                 <Stack direction="row" justifyContent="center">
                     <StatChanger

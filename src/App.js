@@ -145,7 +145,6 @@ const App = () => {
     }
 
     const updateAwayTeam = result => {
-        console.log(awayTeamFull)
         let movedItem,
             newBatter = awayBatter,
             newReserve = awayReserve
@@ -175,7 +174,6 @@ const App = () => {
         }
         setAwayReserve(newReserve)
         setAwayBatter(newBatter)
-        console.log(awayTeamFull)
     }
 
     const handleCurrentPitcher = player => {
@@ -374,7 +372,7 @@ const App = () => {
             pitcherStatUp('carreraspermitidas')
         }
 
-        if (stat === 'hit') {
+        if (stat === 'hit' || stat === 'double' || stat==='triple') {
             pitcherStatUp('hitspermitidos')
         }
 
@@ -448,19 +446,18 @@ const App = () => {
             runDown()
         }
 
+
         if (stat === 'basebola') {
             pitcherStatDown('bbconcedida')
         }
 
-        if (stat === 'run') {
+        if (stat === 'run' || stat === 'homerun') {
             pitcherStatDown('carreraspermitidas')
         }
 
-        if (stat === 'hit') {
+        if (stat === 'hit' || stat === 'double' || stat==='triple') {
             pitcherStatDown('hitspermitidos')
         }
-
-        pitcherStatDown('enfrentados')
 
         currentPlayer.role === 1
             ? currentPlayer.team === matchData.homeId
