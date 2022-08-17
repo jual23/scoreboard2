@@ -29,7 +29,10 @@ const App = () => {
     const [currentPlayer, setCurrentPlayer] = useState(null)
     const [currentPitcher, setCurrentPitcher] = useState(null)
 
-    const [matchData, setMatchData] = useState({
+    const [matchData, setMatchData] = useState(() => {
+        const localdata = localStorage.getItem("matchData")
+        return localdata ? JSON.parse(localdata) :     
+    {
         home: '',
         homeId: '',
         away: '',
@@ -43,10 +46,13 @@ const App = () => {
         homeChallenge: 2,
         awayDesignated: 2,
         homeDesignated: 2,
-    })
+    }})
 
     // Data de equipos
-    const [homeRuns, setHomeRuns] = useState([
+    const [homeRuns, setHomeRuns] = useState(() => {
+        const localdata = localStorage.getItem("homeRuns")
+        return localdata ? JSON.parse(localdata) :  
+        [
         {inning: 1, runs: ''},
         {inning: 2, runs: ''},
         {inning: 3, runs: ''},
@@ -55,8 +61,12 @@ const App = () => {
         {inning: 6, runs: ''},
         {inning: 7, runs: ''},
         {inning: 8, runs: ''},
-    ])
-    const [awayRuns, setAwayRuns] = useState([
+    ]})
+
+    const [awayRuns, setAwayRuns] = useState(() => {
+        const localdata = localStorage.getItem("awayRuns")
+        return localdata ? JSON.parse(localdata) : 
+        [
         {inning: 1, runs: 0},
         {inning: 2, runs: ''},
         {inning: 3, runs: ''},
@@ -65,7 +75,7 @@ const App = () => {
         {inning: 6, runs: ''},
         {inning: 7, runs: ''},
         {inning: 8, runs: ''},
-    ])
+    ]})
 
     const parsePlayers = async (response, teamId, teamName) => {
         let output = []
@@ -101,16 +111,89 @@ const App = () => {
     }
 
     // Rosters de bateo y reserva
-    const [designatedHitter, setDesignatedHitter] = useState(null)
+    const [designatedHitter, setDesignatedHitter] = useState(() => {
+        const localdata = localStorage.getItem("designatedHitter")
+        return localdata ? JSON.parse(localdata) : null})
+        
+    const [homeTeamFull, setHomeTeamFull] = useState(() => {
+        const localdata = localStorage.getItem("homeTeamFull")
+        return localdata ? JSON.parse(localdata) : []})
 
-    const [homeTeamFull, setHomeTeamFull] = useState([])
-    const [awayTeamFull, setAwayTeamFull] = useState([])
-    const [homeBatter, setHomeBatter] = useState([])
-    const [awayBatter, setAwayBatter] = useState([])
-    const [homeReserve, setHomeReserve] = useState([])
-    const [awayReserve, setAwayReserve] = useState([])
-    const [batterList, setBatterList] = useState(null)
-    const [fieldList, setFieldList] = useState(null)
+    const [awayTeamFull, setAwayTeamFull] = useState(() => {
+        const localdata = localStorage.getItem("awayTeamFull")
+        return localdata ? JSON.parse(localdata) : []})
+
+    const [homeBatter, setHomeBatter] = useState(() => {
+        const localdata = localStorage.getItem("homeBatter")
+        return localdata ? JSON.parse(localdata) : []})
+
+    const [awayBatter, setAwayBatter] = useState(() => {
+        const localdata = localStorage.getItem("awayBatter")
+        return localdata ? JSON.parse(localdata) : []})
+
+    const [homeReserve, setHomeReserve] = useState(() => {
+        const localdata = localStorage.getItem("homeReserve")
+        return localdata ? JSON.parse(localdata) : []})
+
+    const [awayReserve, setAwayReserve] = useState(() => {
+        const localdata = localStorage.getItem("awayReserve")
+        return localdata ? JSON.parse(localdata) : []})
+
+    const [batterList, setBatterList] = useState(() => {
+        const localdata = localStorage.getItem("batterList")
+        return localdata ? JSON.parse(localdata) : null})
+
+    const [fieldList, setFieldList] = useState(() => {
+        const localdata = localStorage.getItem("fieldList")
+        return localdata ? JSON.parse(localdata) : null})
+
+
+    useEffect(() => {
+        console.log("cambia matchdata");
+        localStorage.setItem("matchData", JSON.stringify(matchData));
+      }, [matchData]);
+
+      useEffect(() => {
+        console.log("cambia carreras de casa");
+        localStorage.setItem("homeRuns", JSON.stringify(homeRuns));
+      }, [homeRuns]);
+
+      useEffect(() => {
+        console.log("cambia carreras de visitante");
+        localStorage.setItem("awayRuns", JSON.stringify(awayRuns));
+      }, [awayRuns]);
+      
+      useEffect(() => {
+        console.log("cambia jugadores de visitante");
+        localStorage.setItem("awayTeamFull", JSON.stringify(awayTeamFull));
+      }, [awayTeamFull]);
+
+      useEffect(() => {
+        console.log("cambia jugadores de casa");
+        localStorage.setItem("homeTeamFull", JSON.stringify(homeTeamFull));
+      }, [homeTeamFull]);
+
+      useEffect(() => {
+        console.log("cambia bateadores de casa");
+        localStorage.setItem("homeBatter", JSON.stringify(homeBatter));
+      }, [homeBatter]);
+
+
+      useEffect(() => {
+        console.log("cambia reserva de casa");
+        localStorage.setItem("homeReserve", JSON.stringify(homeReserve));
+      }, [homeReserve]);
+
+    
+      useEffect(() => {
+        console.log("cambia bateadores de visitante");
+        localStorage.setItem("awayBatter", JSON.stringify(awayBatter));
+      }, [awayBatter]);
+
+      useEffect(() => {
+        console.log("cambia reserva de visitante");
+        localStorage.setItem("awayReserve", JSON.stringify(awayReserve));
+      }, [awayReserve]); 
 
     const updateHomeTeam = result => {
         let movedItem,
@@ -236,7 +319,8 @@ const App = () => {
 
         setAwayTeamFull([...team2])
         setAwayReserve([...team2])
-
+        localStorage.setItem("awayTeamFull", JSON.stringify(awayTeamFull));
+        localStorage.setItem("homeTeamFull", JSON.stringify(homeTeamFull));
         navigate('/setup')
     }
 
