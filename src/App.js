@@ -5,15 +5,44 @@ import {Routes, Route, useNavigate} from 'react-router-dom'
 import exportFromJSON from 'export-from-json'
 import axios from 'axios'
 
+
 // Components
 // import NavMenu from "./components/NavMenu";
 import GameTracker from './components/GameTracker'
 import ModalStats from './components/ModalStats'
 import TeamSelect from './components/TeamSelect'
 import TeamSetup from './components/TeamSetup'
+import Appbar from './components/Appbar'
 
 const App = () => {
     let navigate = useNavigate()
+    const defaultMatchData = {
+        home: '',
+        homeId: '',
+        away: '',
+        awayId: '',
+        inning: 1,
+        outs: 0,
+        bottomHalf: false,
+        awayTimeout: 2,
+        homeTimeout: 2,
+        awayChallenge: 2,
+        homeChallenge: 2,
+        awayDesignated: 2,
+        homeDesignated: 2,
+    }
+
+    const defaultRuns = [
+        {inning: 1, runs: ''},
+        {inning: 2, runs: ''},
+        {inning: 3, runs: ''},
+        {inning: 4, runs: ''},
+        {inning: 5, runs: ''},
+        {inning: 6, runs: ''},
+        {inning: 7, runs: ''},
+        {inning: 8, runs: ''},
+    ]
+
     const [teams, setTeams] = useState([])
 
     useEffect(() => {
@@ -31,51 +60,17 @@ const App = () => {
 
     const [matchData, setMatchData] = useState(() => {
         const localdata = localStorage.getItem("matchData")
-        return localdata ? JSON.parse(localdata) :     
-    {
-        home: '',
-        homeId: '',
-        away: '',
-        awayId: '',
-        inning: 1,
-        outs: 0,
-        bottomHalf: false,
-        awayTimeout: 2,
-        homeTimeout: 2,
-        awayChallenge: 2,
-        homeChallenge: 2,
-        awayDesignated: 2,
-        homeDesignated: 2,
-    }})
+        return localdata ? JSON.parse(localdata) :  defaultMatchData
+})
 
     // Data de equipos
     const [homeRuns, setHomeRuns] = useState(() => {
         const localdata = localStorage.getItem("homeRuns")
-        return localdata ? JSON.parse(localdata) :  
-        [
-        {inning: 1, runs: ''},
-        {inning: 2, runs: ''},
-        {inning: 3, runs: ''},
-        {inning: 4, runs: ''},
-        {inning: 5, runs: ''},
-        {inning: 6, runs: ''},
-        {inning: 7, runs: ''},
-        {inning: 8, runs: ''},
-    ]})
+        return localdata ? JSON.parse(localdata) :  defaultRuns})
 
     const [awayRuns, setAwayRuns] = useState(() => {
         const localdata = localStorage.getItem("awayRuns")
-        return localdata ? JSON.parse(localdata) : 
-        [
-        {inning: 1, runs: 0},
-        {inning: 2, runs: ''},
-        {inning: 3, runs: ''},
-        {inning: 4, runs: ''},
-        {inning: 5, runs: ''},
-        {inning: 6, runs: ''},
-        {inning: 7, runs: ''},
-        {inning: 8, runs: ''},
-    ]})
+        return localdata ? JSON.parse(localdata) : defaultRuns})
 
     const parsePlayers = async (response, teamId, teamName) => {
         let output = []
@@ -722,8 +717,23 @@ const App = () => {
         exportFromJSON({data, filename, fields, exportType})
     }
 
+    const reset = () => {
+        setMatchData(defaultMatchData)
+        
+        setHomeBatter([])
+        setHomeReserve([])
+        setHomeTeamFull([])
+        setAwayBatter([])
+        setAwayTeamFull([])
+        setAwayReserve([])
+
+        setHomeRuns(defaultRuns)
+        setAwayRuns(defaultRuns)
+    }
+
     return (
         <>
+            <Appbar reset={reset}/>
             <Routes>
                 <Route
                     path="/"
