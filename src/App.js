@@ -33,7 +33,7 @@ const App = () => {
     }
 
     const defaultRuns = [
-        {inning: 1, runs: ''},
+        {inning: 1, runs: 0},
         {inning: 2, runs: ''},
         {inning: 3, runs: ''},
         {inning: 4, runs: ''},
