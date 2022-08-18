@@ -706,17 +706,17 @@ const App = () => {
 
     const reset = () => {
         setMatchData(defaultMatchData)
-        
         setHomeBatter([])
         setHomeReserve([])
         setHomeTeamFull([])
         setAwayBatter([])
         setAwayTeamFull([])
         setAwayReserve([])
-
         setHomeRuns(defaultRuns)
         setAwayRuns(defaultRuns)
     }
+
+    
 
     return (
         <>

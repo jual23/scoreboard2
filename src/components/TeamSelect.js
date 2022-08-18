@@ -58,7 +58,7 @@ const TeamSelect = ({setMatchData, matchData, submitTeams, teams}) => {
                         <TextField {...params} label="Equipo" />
                     )}
                 />
-                <input type="submit" value="Guardar"></input>
+                <input type="submit" value="Iniciar juego"></input>
             </form>
         </div>
     )
