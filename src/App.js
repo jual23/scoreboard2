@@ -144,49 +144,40 @@ const App = () => {
 
 
     useEffect(() => {
-        console.log("cambia matchdata");
         localStorage.setItem("matchData", JSON.stringify(matchData));
       }, [matchData]);
 
       useEffect(() => {
-        console.log("cambia carreras de casa");
         localStorage.setItem("homeRuns", JSON.stringify(homeRuns));
       }, [homeRuns]);
 
       useEffect(() => {
-        console.log("cambia carreras de visitante");
         localStorage.setItem("awayRuns", JSON.stringify(awayRuns));
       }, [awayRuns]);
       
       useEffect(() => {
-        console.log("cambia jugadores de visitante");
         localStorage.setItem("awayTeamFull", JSON.stringify(awayTeamFull));
       }, [awayTeamFull]);
 
       useEffect(() => {
-        console.log("cambia jugadores de casa");
         localStorage.setItem("homeTeamFull", JSON.stringify(homeTeamFull));
       }, [homeTeamFull]);
 
       useEffect(() => {
-        console.log("cambia bateadores de casa");
         localStorage.setItem("homeBatter", JSON.stringify(homeBatter));
       }, [homeBatter]);
 
 
       useEffect(() => {
-        console.log("cambia reserva de casa");
         localStorage.setItem("homeReserve", JSON.stringify(homeReserve));
       }, [homeReserve]);
 
     
       useEffect(() => {
-        console.log("cambia bateadores de visitante");
         localStorage.setItem("awayBatter", JSON.stringify(awayBatter));
       }, [awayBatter]);
 
       useEffect(() => {
-        console.log("cambia reserva de visitante");
         localStorage.setItem("awayReserve", JSON.stringify(awayReserve));
       }, [awayReserve]); 
 
@@ -255,7 +246,6 @@ const App = () => {
     }
 
     const handleCurrentPitcher = player => {
-        console.log(player)
         setCurrentPitcher(player)
     }
 
@@ -286,7 +276,6 @@ const App = () => {
     }
 
     const submitTeams = async e => {
-        console.log('entra a submit teams')
         e.preventDefault()
         let response1 = await axios.get(
             `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.homeId}&filters[league][id][$eq]=3`
@@ -307,8 +296,7 @@ const App = () => {
             matchData.awayId,
             matchData.away
         )
-        console.log(team1)
-        console.log(typeof team1)
+
         setHomeTeamFull([...team1])
         setHomeReserve([...team1])
 
@@ -368,7 +356,6 @@ const App = () => {
             : setAwayReserve(
                   awayReserve.map(player => {
                       if (player.id === currentPitcher.id) {
-                          console.log('1')
                           player = {
                               ...player,
                               [pstat]: player[pstat] + 1,
