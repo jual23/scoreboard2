@@ -52,6 +52,7 @@ const App = () => {
             )
             .then(response => {
                 setTeams(response.data.data[0].attributes.teams.data)
+                console.log(response)
             })
     }, [])
 
@@ -144,6 +145,7 @@ const App = () => {
 
 
     useEffect(() => {
+        console.log("dang");
         localStorage.setItem("matchData", JSON.stringify(matchData));
       }, [matchData]);
 
@@ -167,17 +169,17 @@ const App = () => {
         localStorage.setItem("homeBatter", JSON.stringify(homeBatter));
       }, [homeBatter]);
 
-
       useEffect(() => {
+        console.log("ding");
         localStorage.setItem("homeReserve", JSON.stringify(homeReserve));
       }, [homeReserve]);
-
     
       useEffect(() => {
         localStorage.setItem("awayBatter", JSON.stringify(awayBatter));
       }, [awayBatter]);
 
       useEffect(() => {
+        console.log("dong");
         localStorage.setItem("awayReserve", JSON.stringify(awayReserve));
       }, [awayReserve]); 
 
@@ -209,6 +211,7 @@ const App = () => {
                 newReserve.splice(result.destination.index, 0, movedItem)
             }
         }
+        console.log("ding")
         setHomeReserve(newReserve)
         setHomeBatter(newBatter)
     }
@@ -302,8 +305,8 @@ const App = () => {
 
         setAwayTeamFull([...team2])
         setAwayReserve([...team2])
-        localStorage.setItem("awayTeamFull", JSON.stringify(awayTeamFull));
-        localStorage.setItem("homeTeamFull", JSON.stringify(homeTeamFull));
+        localStorage.setItem("awayTeamFull", JSON.stringify([...team2]));
+        localStorage.setItem("homeTeamFull", JSON.stringify([...team1]));
         navigate('/setup')
     }
 
