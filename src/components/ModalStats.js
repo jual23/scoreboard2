@@ -33,7 +33,7 @@ const ModalStats = ({
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                borderRadius:2
+                borderRadius: 2,
             }}
             justifyContent="center">
             <Grid item xs={10}>
@@ -81,7 +81,7 @@ const ModalStats = ({
                         statUp={statUp}
                         currentPlayer={currentPlayer}
                     />
-                                        <StatChanger
+                    <StatChanger
                         stat={currentPlayer.basebola}
                         statText="basebola"
                         keyword="BB"
@@ -100,10 +100,15 @@ const ModalStats = ({
                 </Stack>
             </Grid>
             <Grid item container xs={10} justifyContent="center" rowSpacing={3}>
-                <Grid item container xs={12} justifyContent="space-evenly" alignItems="center">
+                <Grid
+                    item
+                    container
+                    xs={12}
+                    justifyContent="space-evenly"
+                    alignItems="center">
                     <Grid item xs={6}>
                         <Autocomplete
-                            size='small'
+                            size="small"
                             value={valueK}
                             onChange={(event, newValue) => {
                                 setValueK(newValue)
@@ -129,7 +134,7 @@ const ModalStats = ({
                                 onClick={() =>
                                     statDown(valueK, 'strikeout', true)
                                 }>
-                                <RemoveCircleIcon sx={{ fontSize: 35 }} />
+                                <RemoveCircleIcon sx={{fontSize: 35}} />
                             </IconButton>
                             {/* <p>{currentPlayer.strikeout}</p> */}
                             <IconButton
@@ -137,15 +142,20 @@ const ModalStats = ({
                                 onClick={() =>
                                     statUp(valueK, 'strikeout', true)
                                 }>
-                                <AddCircleIcon sx={{ fontSize: 35 }} />
+                                <AddCircleIcon sx={{fontSize: 35}} />
                             </IconButton>
                         </Stack>
                     </Grid>
                 </Grid>
-                <Grid item container xs={12} justifyContent="space-evenly" alignItems="center">
+                <Grid
+                    item
+                    container
+                    xs={12}
+                    justifyContent="space-evenly"
+                    alignItems="center">
                     <Grid item xs={6}>
                         <Autocomplete
-                            size='small'
+                            size="small"
                             value={valueE}
                             onChange={(event, newValue) => {
                                 setValueE(newValue)
@@ -171,21 +181,26 @@ const ModalStats = ({
                                 onClick={() =>
                                     statDown(valueK, 'errores', true)
                                 }>
-                                <RemoveCircleIcon sx={{ fontSize: 35 }} />
+                                <RemoveCircleIcon sx={{fontSize: 35}} />
                             </IconButton>
                             {/* <p>{currentPlayer.strikeout}</p> */}
                             <IconButton
                                 color="primary"
                                 onClick={() => statUp(valueK, 'errores', true)}>
-                                <AddCircleIcon sx={{ fontSize: 35 }} />
+                                <AddCircleIcon sx={{fontSize: 35}} />
                             </IconButton>
                         </Stack>
                     </Grid>
                 </Grid>
-                <Grid item container xs={12} justifyContent="space-evenly" alignItems="center">
+                <Grid
+                    item
+                    container
+                    xs={12}
+                    justifyContent="space-evenly"
+                    alignItems="center">
                     <Grid item xs={6}>
                         <Autocomplete
-                            size='small'
+                            size="small"
                             value={valueO}
                             onChange={(event, newValue) => {
                                 setValueO(newValue)
@@ -209,21 +224,26 @@ const ModalStats = ({
                             <IconButton
                                 color="primary"
                                 onClick={() => statDown(valueO, 'out', true)}>
-                                <RemoveCircleIcon sx={{ fontSize: 35 }} />
+                                <RemoveCircleIcon sx={{fontSize: 35}} />
                             </IconButton>
                             {/* <p>{currentPlayer.out}</p> */}
                             <IconButton
                                 color="primary"
                                 onClick={() => statUp(valueO, 'out', true)}>
-                                <AddCircleIcon sx={{ fontSize: 35 }} />
+                                <AddCircleIcon sx={{fontSize: 35}} />
                             </IconButton>
                         </Stack>
                     </Grid>
                 </Grid>
-                <Grid item container xs={12} justifyContent="space-evenly" alignItems="center">
+                <Grid
+                    item
+                    container
+                    xs={12}
+                    justifyContent="space-evenly"
+                    alignItems="center">
                     <Grid item xs={6}>
                         <Autocomplete
-                            size='small'
+                            size="small"
                             value={valueD}
                             onChange={(event, newValue) => {
                                 setValueD(newValue)
@@ -247,7 +267,7 @@ const ModalStats = ({
                             onClick={() => onHandleDesignatedHitter(valueD)}>
                             <DoubleArrowIcon
                                 color="primary"
-                                sx={{ fontSize: 35 }}
+                                sx={{fontSize: 35}}
                             />
                         </IconButton>
                     </Grid>

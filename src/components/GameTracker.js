@@ -22,6 +22,8 @@ const GameTracker = ({
     currentPitcher,
     onHandlePitcher,
     save,
+    homeIndex,
+    awayIndex,
 }) => {
     return (
         <Box sx={{flexGrow: 1}}>
@@ -98,7 +100,13 @@ const GameTracker = ({
                                             awayTeam
                                         )
                                     }>
-                                    <Stats player={player} />
+                                    <Stats
+                                        player={player}
+                                        active={
+                                            homeBatter.indexOf(player) ===
+                                            homeIndex
+                                        }
+                                    />
                                 </Grid>
                             ))}
                         </Grid>
@@ -174,7 +182,13 @@ const GameTracker = ({
                                             homeTeam
                                         )
                                     }>
-                                    <Stats player={player} />
+                                    <Stats
+                                        player={player}
+                                        active={
+                                            awayBatter.indexOf(player) ===
+                                            awayIndex
+                                        }
+                                    />
                                 </Grid>
                             ))}
                         </Grid>

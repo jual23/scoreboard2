@@ -122,10 +122,19 @@ margin: 10px auto;
   border-left:7px solid rgb(255, 118, 193);
 }
 
-.player-list_stats {
+.player-list_stats{
   display: flex;
   border-radius: 8px;
   padding: 20px 0px;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #FFF;
+  text-align: center;
+}
+
+.player-list_stats span{
+  flex-basis: 85%;
+  display: flex;
   justify-content: space-around;
   align-items: center;
   background-color: #FFF;

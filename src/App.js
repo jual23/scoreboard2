@@ -164,6 +164,16 @@ const App = () => {
         return localdata ? JSON.parse(localdata) : null
     })
 
+    const [homeIndex, setHomeIndex] = useState(() => {
+        const localdata = localStorage.getItem('homeIndex')
+        return localdata ? JSON.parse(localdata) : 0
+    })
+
+    const [awayIndex, setAwayIndex] = useState(() => {
+        const localdata = localStorage.getItem('awayIndex')
+        return localdata ? JSON.parse(localdata) : 0
+    })
+
     useEffect(() => {
         console.log('dang')
         localStorage.setItem('matchData', JSON.stringify(matchData))
@@ -219,6 +229,14 @@ const App = () => {
     useEffect(() => {
         localStorage.setItem('existingGame', JSON.stringify(existingGame))
     }, [existingGame])
+
+    useEffect(() => {
+        localStorage.setItem('homeIndex', JSON.stringify(homeIndex))
+    }, [homeIndex])
+
+    useEffect(() => {
+        localStorage.setItem('awayIndex', JSON.stringify(awayIndex))
+    }, [awayIndex])
 
     const updateHomeTeam = result => {
         let movedItem,
@@ -495,7 +513,9 @@ const App = () => {
                                       [stat]: player[stat] + 1,
                                   })
                               }
-
+                              homeIndex + 1 < homeBatter.length
+                                  ? setHomeIndex(homeIndex + 1)
+                                  : setHomeIndex(0)
                               return {...player, [stat]: player[stat] + 1}
                           }
                           return player
@@ -510,6 +530,9 @@ const App = () => {
                                       [stat]: player[stat] + 1,
                                   })
                               }
+                              awayIndex + 1 < homeBatter.length
+                                  ? setAwayIndex(awayIndex + 1)
+                                  : setAwayIndex(0)
                               return {...player, [stat]: player[stat] + 1}
                           }
                           return player
@@ -577,6 +600,9 @@ const App = () => {
                                       [stat]: player[stat] - 1,
                                   })
                               }
+                              homeIndex + 1 < homeBatter.length
+                                  ? setHomeIndex(homeIndex - 1)
+                                  : setHomeIndex(0)
                               return {...player, [stat]: player[stat] - 1}
                           }
                           return player
@@ -591,6 +617,9 @@ const App = () => {
                                       [stat]: player[stat] - 1,
                                   })
                               }
+                              awayIndex + 1 < homeBatter.length
+                                  ? setAwayIndex(awayIndex - 1)
+                                  : setAwayIndex(0)
                               return {...player, [stat]: player[stat] - 1}
                           }
                           return player
@@ -760,6 +789,8 @@ const App = () => {
         setCurrentPitcher(null)
         setCurrentPlayer(null)
         setExistingGame(false)
+        setHomeIndex(0)
+        setAwayIndex(0)
     }
 
     return (
@@ -815,6 +846,8 @@ const App = () => {
                             onHandlePlayer={handlePlayer}
                             currentPitcher={currentPitcher}
                             onHandlePitcher={handleCurrentPitcher}
+                            homeIndex={homeIndex}
+                            awayIndex={awayIndex}
                         />
                     }
                 />
