@@ -5,7 +5,6 @@ import {Routes, Route, useNavigate} from 'react-router-dom'
 import exportFromJSON from 'export-from-json'
 import axios from 'axios'
 
-
 // Components
 // import NavMenu from "./components/NavMenu";
 import GameTracker from './components/GameTracker'
@@ -56,22 +55,35 @@ const App = () => {
             })
     }, [])
 
-    const [currentPlayer, setCurrentPlayer] = useState(null)
-    const [currentPitcher, setCurrentPitcher] = useState(null)
+    const [existingGame, setExistingGame] = useState(() => {
+        const localdata = localStorage.getItem('existingGame')
+        return localdata ? true : false
+    })
+
+    const [currentPlayer, setCurrentPlayer] = useState(() => {
+        const localdata = localStorage.getItem('currentPlayer')
+        return localdata ? JSON.parse(localdata) : null
+    })
+    const [currentPitcher, setCurrentPitcher] = useState(() => {
+        const localdata = localStorage.getItem('currentPitcher')
+        return localdata ? JSON.parse(localdata) : null
+    })
 
     const [matchData, setMatchData] = useState(() => {
-        const localdata = localStorage.getItem("matchData")
-        return localdata ? JSON.parse(localdata) :  defaultMatchData
-})
+        const localdata = localStorage.getItem('matchData')
+        return localdata ? JSON.parse(localdata) : defaultMatchData
+    })
 
     // Data de equipos
     const [homeRuns, setHomeRuns] = useState(() => {
-        const localdata = localStorage.getItem("homeRuns")
-        return localdata ? JSON.parse(localdata) :  defaultRuns})
+        const localdata = localStorage.getItem('homeRuns')
+        return localdata ? JSON.parse(localdata) : defaultRuns
+    })
 
     const [awayRuns, setAwayRuns] = useState(() => {
-        const localdata = localStorage.getItem("awayRuns")
-        return localdata ? JSON.parse(localdata) : defaultRuns})
+        const localdata = localStorage.getItem('awayRuns')
+        return localdata ? JSON.parse(localdata) : defaultRuns
+    })
 
     const parsePlayers = async (response, teamId, teamName) => {
         let output = []
@@ -108,85 +120,110 @@ const App = () => {
 
     // Rosters de bateo y reserva
     const [designatedHitter, setDesignatedHitter] = useState(() => {
-        const localdata = localStorage.getItem("designatedHitter")
-        return localdata ? JSON.parse(localdata) : null})
-        
+        const localdata = localStorage.getItem('designatedHitter')
+        return localdata ? JSON.parse(localdata) : null
+    })
+
     const [homeTeamFull, setHomeTeamFull] = useState(() => {
-        const localdata = localStorage.getItem("homeTeamFull")
-        return localdata ? JSON.parse(localdata) : []})
+        const localdata = localStorage.getItem('homeTeamFull')
+        return localdata ? JSON.parse(localdata) : []
+    })
 
     const [awayTeamFull, setAwayTeamFull] = useState(() => {
-        const localdata = localStorage.getItem("awayTeamFull")
-        return localdata ? JSON.parse(localdata) : []})
+        const localdata = localStorage.getItem('awayTeamFull')
+        return localdata ? JSON.parse(localdata) : []
+    })
 
     const [homeBatter, setHomeBatter] = useState(() => {
-        const localdata = localStorage.getItem("homeBatter")
-        return localdata ? JSON.parse(localdata) : []})
+        const localdata = localStorage.getItem('homeBatter')
+        return localdata ? JSON.parse(localdata) : []
+    })
 
     const [awayBatter, setAwayBatter] = useState(() => {
-        const localdata = localStorage.getItem("awayBatter")
-        return localdata ? JSON.parse(localdata) : []})
+        const localdata = localStorage.getItem('awayBatter')
+        return localdata ? JSON.parse(localdata) : []
+    })
 
     const [homeReserve, setHomeReserve] = useState(() => {
-        const localdata = localStorage.getItem("homeReserve")
-        return localdata ? JSON.parse(localdata) : []})
+        const localdata = localStorage.getItem('homeReserve')
+        return localdata ? JSON.parse(localdata) : []
+    })
 
     const [awayReserve, setAwayReserve] = useState(() => {
-        const localdata = localStorage.getItem("awayReserve")
-        return localdata ? JSON.parse(localdata) : []})
+        const localdata = localStorage.getItem('awayReserve')
+        return localdata ? JSON.parse(localdata) : []
+    })
 
     const [batterList, setBatterList] = useState(() => {
-        const localdata = localStorage.getItem("batterList")
-        return localdata ? JSON.parse(localdata) : null})
+        const localdata = localStorage.getItem('batterList')
+        return localdata ? JSON.parse(localdata) : null
+    })
 
     const [fieldList, setFieldList] = useState(() => {
-        const localdata = localStorage.getItem("fieldList")
-        return localdata ? JSON.parse(localdata) : null})
-
+        const localdata = localStorage.getItem('fieldList')
+        return localdata ? JSON.parse(localdata) : null
+    })
 
     useEffect(() => {
-        console.log("dang");
-        localStorage.setItem("matchData", JSON.stringify(matchData));
-      }, [matchData]);
+        console.log('dang')
+        localStorage.setItem('matchData', JSON.stringify(matchData))
+    }, [matchData])
 
-      useEffect(() => {
-        localStorage.setItem("homeRuns", JSON.stringify(homeRuns));
-      }, [homeRuns]);
+    useEffect(() => {
+        localStorage.setItem('homeRuns', JSON.stringify(homeRuns))
+    }, [homeRuns])
 
-      useEffect(() => {
-        localStorage.setItem("awayRuns", JSON.stringify(awayRuns));
-      }, [awayRuns]);
-      
-      useEffect(() => {
-        localStorage.setItem("awayTeamFull", JSON.stringify(awayTeamFull));
-      }, [awayTeamFull]);
+    useEffect(() => {
+        localStorage.setItem('awayRuns', JSON.stringify(awayRuns))
+    }, [awayRuns])
 
-      useEffect(() => {
-        localStorage.setItem("homeTeamFull", JSON.stringify(homeTeamFull));
-      }, [homeTeamFull]);
+    useEffect(() => {
+        localStorage.setItem('awayTeamFull', JSON.stringify(awayTeamFull))
+    }, [awayTeamFull])
 
-      useEffect(() => {
-        localStorage.setItem("homeBatter", JSON.stringify(homeBatter));
-      }, [homeBatter]);
+    useEffect(() => {
+        localStorage.setItem('homeTeamFull', JSON.stringify(homeTeamFull))
+    }, [homeTeamFull])
 
-      useEffect(() => {
-        console.log("ding");
-        localStorage.setItem("homeReserve", JSON.stringify(homeReserve));
-      }, [homeReserve]);
-    
-      useEffect(() => {
-        localStorage.setItem("awayBatter", JSON.stringify(awayBatter));
-      }, [awayBatter]);
+    useEffect(() => {
+        localStorage.setItem('homeBatter', JSON.stringify(homeBatter))
+    }, [homeBatter])
 
-      useEffect(() => {
-        console.log("dong");
-        localStorage.setItem("awayReserve", JSON.stringify(awayReserve));
-      }, [awayReserve]); 
+    useEffect(() => {
+        localStorage.setItem('homeReserve', JSON.stringify(homeReserve))
+    }, [homeReserve])
+
+    useEffect(() => {
+        localStorage.setItem('awayBatter', JSON.stringify(awayBatter))
+    }, [awayBatter])
+
+    useEffect(() => {
+        localStorage.setItem('awayReserve', JSON.stringify(awayReserve))
+    }, [awayReserve])
+
+    useEffect(() => {
+        localStorage.setItem(
+            'designatedHitter',
+            JSON.stringify(designatedHitter)
+        )
+    }, [designatedHitter])
+
+    useEffect(() => {
+        localStorage.setItem('currentPlayer', JSON.stringify(currentPlayer))
+    }, [currentPlayer])
+
+    useEffect(() => {
+        localStorage.setItem('currentPitcher', JSON.stringify(currentPitcher))
+    }, [currentPitcher])
+
+    useEffect(() => {
+        localStorage.setItem('existingGame', JSON.stringify(existingGame))
+    }, [existingGame])
 
     const updateHomeTeam = result => {
         let movedItem,
-            newBatter = homeBatter,
-            newReserve = homeReserve
+            newBatter = [...homeBatter],
+            newReserve = [...homeReserve]
 
         if (result.source.droppableId === result.destination.droppableId) {
             if (result.source.droppableId === 'home_reserve') {
@@ -211,15 +248,14 @@ const App = () => {
                 newReserve.splice(result.destination.index, 0, movedItem)
             }
         }
-        console.log("ding")
         setHomeReserve(newReserve)
         setHomeBatter(newBatter)
     }
 
     const updateAwayTeam = result => {
         let movedItem,
-            newBatter = awayBatter,
-            newReserve = awayReserve
+            newBatter = [...awayBatter],
+            newReserve = [...awayReserve]
 
         if (result.source.droppableId === result.destination.droppableId) {
             if (result.source.droppableId === 'away_reserve') {
@@ -253,27 +289,29 @@ const App = () => {
     }
 
     const handleDesignatedHitter = player => {
-        if (matchData.bottomHalf === true) {
-            if (matchData.homeDesignated > 0) {
-                setCurrentPlayer(player)
-                setDesignatedHitter(player)
-                setMatchData({
-                    ...matchData,
-                    homeDesignated: matchData.homeDesignated - 1,
-                })
+        if (player) {
+            if (matchData.bottomHalf === true) {
+                if (matchData.homeDesignated > 0) {
+                    setCurrentPlayer(player)
+                    setDesignatedHitter(player)
+                    setMatchData({
+                        ...matchData,
+                        homeDesignated: matchData.homeDesignated - 1,
+                    })
+                } else {
+                    alert('No quedan emergentes')
+                }
             } else {
-                alert('No quedan emergentes')
-            }
-        } else {
-            if (matchData.awayDesignated > 0) {
-                setCurrentPlayer(player)
-                setDesignatedHitter(player)
-                setMatchData({
-                    ...matchData,
-                    awayDesignated: matchData.awayDesignated - 1,
-                })
-            } else {
-                alert('No quedan emergentes')
+                if (matchData.awayDesignated > 0) {
+                    setCurrentPlayer(player)
+                    setDesignatedHitter(player)
+                    setMatchData({
+                        ...matchData,
+                        awayDesignated: matchData.awayDesignated - 1,
+                    })
+                } else {
+                    alert('No quedan emergentes')
+                }
             }
         }
     }
@@ -305,8 +343,9 @@ const App = () => {
 
         setAwayTeamFull([...team2])
         setAwayReserve([...team2])
-        localStorage.setItem("awayTeamFull", JSON.stringify([...team2]));
-        localStorage.setItem("homeTeamFull", JSON.stringify([...team1]));
+        localStorage.setItem('awayTeamFull', JSON.stringify([...team2]))
+        localStorage.setItem('homeTeamFull', JSON.stringify([...team1]))
+        setExistingGame(true)
         navigate('/setup')
     }
 
@@ -441,7 +480,7 @@ const App = () => {
             pitcherStatUp('carreraspermitidas')
         }
 
-        if (stat === 'hit' || stat === 'double' || stat==='triple') {
+        if (stat === 'hit' || stat === 'double' || stat === 'triple') {
             pitcherStatUp('hitspermitidos')
         }
 
@@ -515,7 +554,6 @@ const App = () => {
             runDown()
         }
 
-
         if (stat === 'basebola') {
             pitcherStatDown('bbconcedida')
         }
@@ -524,7 +562,7 @@ const App = () => {
             pitcherStatDown('carreraspermitidas')
         }
 
-        if (stat === 'hit' || stat === 'double' || stat==='triple') {
+        if (stat === 'hit' || stat === 'double' || stat === 'triple') {
             pitcherStatDown('hitspermitidos')
         }
 
@@ -708,6 +746,7 @@ const App = () => {
     }
 
     const reset = () => {
+        localStorage.clear()
         setMatchData(defaultMatchData)
         setHomeBatter([])
         setHomeReserve([])
@@ -717,13 +756,15 @@ const App = () => {
         setAwayReserve([])
         setHomeRuns(defaultRuns)
         setAwayRuns(defaultRuns)
+        setDesignatedHitter(null)
+        setCurrentPitcher(null)
+        setCurrentPlayer(null)
+        setExistingGame(false)
     }
-
-    
 
     return (
         <>
-            <Appbar reset={reset}/>
+            <Appbar reset={reset} existing={existingGame} />
             <Routes>
                 <Route
                     path="/"
