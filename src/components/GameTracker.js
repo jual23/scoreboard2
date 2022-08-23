@@ -72,7 +72,7 @@ const GameTracker = ({
                     </Card>
                 </Grid>
                 {matchData.bottomHalf === true ? (
-                    <Grid item container justifyContent="space-around" xs={12}>
+                    currentPitcher && <Grid item container justifyContent="space-around" xs={12}>
                         <Grid item xs={11} justifyContent="center">
                             <h2>{matchData.home}</h2>
                         </Grid>
@@ -140,7 +140,7 @@ const GameTracker = ({
                         </Grid>
                     </Grid>
                 ) : (
-                    <Grid
+                    currentPitcher && <Grid
                         item
                         container
                         justifyContent="space-around"
