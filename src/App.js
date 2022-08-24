@@ -500,6 +500,16 @@ const App = () => {
             pitcherStatUp('hitspermitidos')
         }
 
+        if (matchData.bottomHalf === true) {
+            homeIndex + 1 < homeBatter.length
+                ? setHomeIndex(homeIndex + 1)
+                : setHomeIndex(0)
+        } else {
+            awayIndex + 1 < homeBatter.length
+                ? setAwayIndex(awayIndex + 1)
+                : setAwayIndex(0)
+        }
+
         currentPlayer.role === 1
             ? currentPlayer.team === matchData.homeId
                 ? setHomeBatter(
@@ -511,9 +521,6 @@ const App = () => {
                                       [stat]: player[stat] + 1,
                                   })
                               }
-                              homeIndex + 1 < homeBatter.length
-                                  ? setHomeIndex(homeIndex + 1)
-                                  : setHomeIndex(0)
                               return {...player, [stat]: player[stat] + 1}
                           }
                           return player
@@ -528,9 +535,6 @@ const App = () => {
                                       [stat]: player[stat] + 1,
                                   })
                               }
-                              awayIndex + 1 < homeBatter.length
-                                  ? setAwayIndex(awayIndex + 1)
-                                  : setAwayIndex(0)
                               return {...player, [stat]: player[stat] + 1}
                           }
                           return player
@@ -586,7 +590,15 @@ const App = () => {
         if (stat === 'hit' || stat === 'double' || stat === 'triple') {
             pitcherStatDown('hitspermitidos')
         }
-
+        if (matchData.bottomHalf === true) {
+            homeIndex === 0
+                ? setHomeIndex(homeBatter.length - 1)
+                : setHomeIndex(homeIndex - 1)
+        } else {
+            awayIndex === 0
+                ? setAwayIndex(awayBatter.length - 1)
+                : setAwayIndex(awayIndex - 1)
+        }
         currentPlayer.role === 1
             ? currentPlayer.team === matchData.homeId
                 ? setHomeBatter(
@@ -598,9 +610,6 @@ const App = () => {
                                       [stat]: player[stat] - 1,
                                   })
                               }
-                              homeIndex + 1 < homeBatter.length
-                                  ? setHomeIndex(homeIndex - 1)
-                                  : setHomeIndex(0)
                               return {...player, [stat]: player[stat] - 1}
                           }
                           return player
@@ -615,9 +624,6 @@ const App = () => {
                                       [stat]: player[stat] - 1,
                                   })
                               }
-                              awayIndex + 1 < homeBatter.length
-                                  ? setAwayIndex(awayIndex - 1)
-                                  : setAwayIndex(0)
                               return {...player, [stat]: player[stat] - 1}
                           }
                           return player
@@ -869,3 +875,4 @@ const App = () => {
         </>
     )
 }
+export default App
