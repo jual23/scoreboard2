@@ -372,11 +372,86 @@ const App = () => {
     }
 
     const pitcherStatUp = pstat => {
-        currentPitcher.role === 1
-            ? currentPitcher.team === matchData.homeId
-                ? setHomeBatter(
-                      homeBatter.map(player => {
-                          if (player.id === currentPlayer.id) {
+        if (pstat === 'out' || pstat === 'strikeout') {
+            currentPitcher.role === 1
+                ? currentPitcher.team === matchData.homeId
+                    ? setHomeBatter(
+                          homeBatter.map(player => {
+                              if (player.id === currentPitcher.id) {
+                                  return {
+                                      ...player,
+                                      enfrentados: player.enfrentados + 1,
+                                  }
+                              }
+                              return player
+                          })
+                      )
+                    : setAwayBatter(
+                          awayBatter.map(player => {
+                              if (player.id === currentPitcher.id) {
+                                  return {
+                                      ...player,
+                                      enfrentados: player.enfrentados + 1,
+                                  }
+                              }
+                              return player
+                          })
+                      )
+                : currentPitcher.team === matchData.homeId
+                ? setHomeReserve(
+                      homeReserve.map(player => {
+                          if (player.id === currentPitcher.id) {
+                              return {
+                                  ...player,
+                                  enfrentados: player.enfrentados + 1,
+                              }
+                          }
+                          return player
+                      })
+                  )
+                : setAwayReserve(
+                      awayReserve.map(player => {
+                          if (player.id === currentPitcher.id) {
+                              player = {
+                                  ...player,
+                                  enfrentados: player.enfrentados + 1,
+                              }
+                              return player
+                          }
+                          return player
+                      })
+                  )
+        } else {
+            currentPitcher.role === 1
+                ? currentPitcher.team === matchData.homeId
+                    ? setHomeBatter(
+                          homeBatter.map(player => {
+                              if (player.id === currentPitcher.id) {
+                                  return {
+                                      ...player,
+                                      [pstat]: player[pstat] + 1,
+                                      enfrentados: player.enfrentados + 1,
+                                  }
+                              }
+                              return player
+                          })
+                      )
+                    : setAwayBatter(
+                          awayBatter.map(player => {
+                              if (player.id === currentPitcher.id) {
+                                  return {
+                                      ...player,
+                                      [pstat]: player[pstat] + 1,
+                                      enfrentados: player.enfrentados + 1,
+                                  }
+                              }
+                              return player
+                          })
+                      )
+                : currentPitcher.team === matchData.homeId
+                ? setHomeReserve(
+                      homeReserve.map(player => {
+                          if (player.id === currentPitcher.id) {
                               return {
                                   ...player,
                                   [pstat]: player[pstat] + 1,
@@ -386,44 +461,20 @@ const App = () => {
                           return player
                       })
                   )
-                : setAwayBatter(
-                      awayBatter.map(player => {
-                          if (player.id === currentPlayer.id) {
-                              return {
+                : setAwayReserve(
+                      awayReserve.map(player => {
+                          if (player.id === currentPitcher.id) {
+                              player = {
                                   ...player,
                                   [pstat]: player[pstat] + 1,
                                   enfrentados: player.enfrentados + 1,
                               }
+                              return player
                           }
                           return player
                       })
                   )
-            : currentPitcher.team === matchData.homeId
-            ? setHomeReserve(
-                  homeReserve.map(player => {
-                      if (player.id === currentPitcher.id) {
-                          return {
-                              ...player,
-                              [pstat]: player[pstat] + 1,
-                              enfrentados: player.enfrentados + 1,
-                          }
-                      }
-                      return player
-                  })
-              )
-            : setAwayReserve(
-                  awayReserve.map(player => {
-                      if (player.id === currentPitcher.id) {
-                          player = {
-                              ...player,
-                              [pstat]: player[pstat] + 1,
-                              enfrentados: player.enfrentados + 1,
-                          }
-                          return player
-                      }
-                      return player
-                  })
-              )
+        }
     }
 
     const pitcherStatDown = pstat => {
@@ -492,6 +543,10 @@ const App = () => {
             pitcherStatUp('bbconcedida')
         }
 
+        if (stat === 'out' || stat === 'strikeout') {
+            pitcherStatUp(stat)
+        }
+
         if (stat === 'run' || stat === 'homerun') {
             pitcherStatUp('carreraspermitidas')
         }
@@ -500,16 +555,18 @@ const App = () => {
             pitcherStatUp('hitspermitidos')
         }
 
-        if (matchData.bottomHalf === true) {
-            homeIndex + 1 < homeBatter.length
-                ? setHomeIndex(homeIndex + 1)
-                : setHomeIndex(0)
-        } else {
-            awayIndex + 1 < homeBatter.length
-                ? setAwayIndex(awayIndex + 1)
-                : setAwayIndex(0)
+        if (stat !== 'run' && stat !== 'impulsadas') {
+            if (matchData.bottomHalf === true) {
+                homeIndex + 1 < homeBatter.length
+                    ? setHomeIndex(homeIndex + 1)
+                    : setHomeIndex(0)
+            } else {
+                awayIndex + 1 < homeBatter.length
+                    ? setAwayIndex(awayIndex + 1)
+                    : setAwayIndex(0)
+            }
         }
-
+        console.log(currentPlayer)
         currentPlayer.role === 1
             ? currentPlayer.team === matchData.homeId
                 ? setHomeBatter(
@@ -575,6 +632,7 @@ const App = () => {
         if (stat === 'out' || stat === 'strikeout') {
             outDown()
         }
+
         if (stat === 'run' || stat === 'homerun') {
             runDown()
         }
@@ -590,15 +648,19 @@ const App = () => {
         if (stat === 'hit' || stat === 'double' || stat === 'triple') {
             pitcherStatDown('hitspermitidos')
         }
-        if (matchData.bottomHalf === true) {
-            homeIndex === 0
-                ? setHomeIndex(homeBatter.length - 1)
-                : setHomeIndex(homeIndex - 1)
-        } else {
-            awayIndex === 0
-                ? setAwayIndex(awayBatter.length - 1)
-                : setAwayIndex(awayIndex - 1)
+
+        if (stat !== 'run' && stat !== 'impulsadas') {
+            if (matchData.bottomHalf === true) {
+                homeIndex === 0
+                    ? setHomeIndex(homeBatter.length - 1)
+                    : setHomeIndex(homeIndex - 1)
+            } else {
+                awayIndex === 0
+                    ? setAwayIndex(awayBatter.length - 1)
+                    : setAwayIndex(awayIndex - 1)
+            }
         }
+
         currentPlayer.role === 1
             ? currentPlayer.team === matchData.homeId
                 ? setHomeBatter(
