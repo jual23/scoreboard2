@@ -15,16 +15,16 @@ const Pitcherbox = ({
 
     return (
         <div>
-            <Typography>Pitcher</Typography>
-            {currentPitcher ? (
-                <Typography>{currentPitcher.name}</Typography>
-            ) : (
-                <Typography>Selecciona un pitcher.</Typography>
-            )}
+            <Typography component="div" variant="h6">Pitcher:</Typography>
+            <Typography gutterBottom  component="div" variant="h5">{currentPitcher ? 
+                currentPitcher.name
+             :  "Selecciona un pitcher"
+            }</Typography>
+
 
             {matchData.bottomHalf === false ? (
                 <Grid container>
-                    <Grid item xs={12}>
+                    <Grid item xs={5}>
                         <Autocomplete
                             value={valueD}
                             onChange={(event, newValue) => {
@@ -55,7 +55,7 @@ const Pitcherbox = ({
                 </Grid>
             ) : (
                 <Grid container>
-                    <Grid item xs={12}>
+                    <Grid item xs={5}>
                         <Autocomplete
                             value={valueD}
                             onChange={(event, newValue) => {

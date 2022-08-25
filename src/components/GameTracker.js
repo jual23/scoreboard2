@@ -5,7 +5,7 @@ import Pitcherbox from './Pitcherbox'
 import Stats from './Stats'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import {Button, Card} from '@mui/material'
+import {Button, Card, CardMedia, CardContent} from '@mui/material'
 
 const GameTracker = ({
     awayTeam,
@@ -27,7 +27,7 @@ const GameTracker = ({
 }) => {
     return (
         <Box sx={{flexGrow: 1}}>
-            <Grid container className="main" spacing={3}>
+            <Grid container className="main" spacing={3} justifyContent="center">
                 <Grid
                     item
                     container
@@ -60,16 +60,18 @@ const GameTracker = ({
                         />
                     </Grid>
                 </Grid>
-                <Grid item container justifyContent="space-around" xs={12}>
-                    <Card>
-                        <Pitcherbox
-                            currentPitcher={currentPitcher}
-                            onHandlePitcher={onHandlePitcher}
-                            awayTeam={awayTeam}
-                            homeTeam={homeTeam}
-                            matchData={matchData}
-                        />
-                    </Card>
+                <Grid item xs={10} >
+                        <Card >
+                            <CardContent>
+                                <Pitcherbox
+                                currentPitcher={currentPitcher}
+                                onHandlePitcher={onHandlePitcher}
+                                awayTeam={awayTeam}
+                                homeTeam={homeTeam}
+                                matchData={matchData}
+                            />
+                            </CardContent>
+                        </Card>
                 </Grid>
                 {matchData.bottomHalf === true ? (
                     currentPitcher && <Grid item container justifyContent="space-around" xs={12}>
@@ -160,16 +162,6 @@ const GameTracker = ({
                                 paddingBottom: 3,
                                 borderRadius: 1,
                             }}>
-                            {/* {designatedHitter && (
-                                <Grid
-                                    item
-                                    xs={10}
-                                    onClick={() =>
-                                        onHandlePlayer(designatedHitter)
-                                    }>
-                                    <Stats player={designatedHitter} />
-                                </Grid>
-                            )} */}
                             {awayBatter.map(player => (
                                 <Grid
                                     key={player.id}
