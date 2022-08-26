@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {
     Grid,
+    Box,
     Typography,
     Button,
     Card,
@@ -20,32 +21,24 @@ const LeagueSelect = ({leagues, setMatchList, navigate}) => {
             })
     }
     return (
-        <Grid container justifyContent="space-evenly" spacing={3}>
+        <Grid container justifyContent="space-evenly" >
             {leagues.map(league => (
-                <Grid item xs={9} key={league.id}>
+                <Grid item xs={6} key={league.id}>
                     <Button onClick={() => getMatches(league.id)}>
-                        <Card>
-                            <Grid container>
-                                <Grid item xs={12}>
+                    <Grid container ><Grid item xs={12}><Card sx={{backgroundPosition:"center",backgroundImage: `url("https://media.istockphoto.com/photos/universal-grass-stadium-illuminated-by-spotlights-and-empty-green-picture-id1130905980?k=20&m=1130905980&s=612x612&w=0&h=jnoRR6ZEK1fT1dkx-yaZQxjTE59n5CUC2zbTFQ-5hWA=")`}}>
+                            
                                     <CardMedia
                                         component="img"
-                                        height="120"
-                                        image="https://www.freewebheaders.com/wp-content/gallery/football/sports-soccer-stadium-night-scene-web-header.jpg"
-                                        alt="logo"
-                                    />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <CardMedia
-                                        component="img"
-                                        height="120"
+                                        height="200"
                                         image={
                                             league.attributes.logo.data
                                                 .attributes.url
                                         }
                                         alt="logo"
+                                        className='glassmorph'
                                     />
-                                </Grid>
-                                <Grid item xs={8}>
+
+                                {/* <Grid item xs={8}>
                                     <CardContent>
                                         <Typography
                                             component="div"
@@ -53,9 +46,9 @@ const LeagueSelect = ({leagues, setMatchList, navigate}) => {
                                             {league.attributes.name}
                                         </Typography>
                                     </CardContent>
-                                </Grid>
-                            </Grid>
-                        </Card>
+                                </Grid> */}
+
+                        </Card></Grid></Grid>
                     </Button>
                 </Grid>
             ))}
