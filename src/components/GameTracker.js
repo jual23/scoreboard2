@@ -5,7 +5,7 @@ import Pitcherbox from './Pitcherbox'
 import Stats from './Stats'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import {Button, Card, CardMedia, CardContent} from '@mui/material'
+import {Button, Card, CardContent} from '@mui/material'
 
 const GameTracker = ({
     awayTeam,
@@ -24,10 +24,15 @@ const GameTracker = ({
     save,
     homeIndex,
     awayIndex,
+    upload,
 }) => {
     return (
         <Box sx={{flexGrow: 1}}>
-            <Grid container className="main" spacing={3} justifyContent="center">
+            <Grid
+                container
+                className="main"
+                spacing={3}
+                justifyContent="center">
                 <Grid
                     item
                     container
@@ -41,7 +46,7 @@ const GameTracker = ({
                         <Button
                             variant="contained"
                             color="secondary"
-                            onClick={() => save()}>
+                            onClick={() => upload()}>
                             Guardar Stats
                         </Button>
                     </Grid>
@@ -60,160 +65,166 @@ const GameTracker = ({
                         />
                     </Grid>
                 </Grid>
-                <Grid item xs={10} >
-                        <Card >
-                            <CardContent>
-                                <Pitcherbox
+                <Grid item xs={10}>
+                    <Card>
+                        <CardContent>
+                            <Pitcherbox
                                 currentPitcher={currentPitcher}
                                 onHandlePitcher={onHandlePitcher}
                                 awayTeam={awayTeam}
                                 homeTeam={homeTeam}
                                 matchData={matchData}
                             />
-                            </CardContent>
-                        </Card>
+                        </CardContent>
+                    </Card>
                 </Grid>
-                {matchData.bottomHalf === true ? (
-                    currentPitcher && <Grid item container justifyContent="space-around" xs={12}>
-                        <Grid item xs={11} justifyContent="center">
-                            <h2>{matchData.home}</h2>
-                        </Grid>
-                        <Grid
-                            item
-                            xs={11}
-                            container
-                            justifyContent="space-around"
-                            rowSpacing={2}
-                            sx={{
-                                marginTop: 1,
-                                backgroundColor: 'aliceblue',
-                                paddingBottom: 3,
-                                borderRadius: 1,
-                            }}>
-                            {homeBatter.map(player => (
-                                <Grid
-                                    key={player.id}
-                                    item
-                                    xs={10}
-                                    onClick={() =>
-                                        onHandlePlayer(
-                                            player,
-                                            homeTeam,
-                                            awayTeam
-                                        )
-                                    }>
-                                    <Stats
-                                        player={player}
-                                        active={
-                                            homeBatter.indexOf(player) ===
-                                            homeIndex
-                                        }
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
-                        <Grid
-                            item
-                            xs={11}
-                            container
-                            justifyContent="space-around"
-                            rowSpacing={2}
-                            sx={{
-                                marginTop: 1,
-                                backgroundColor: 'aliceblue',
-                                paddingBottom: 3,
-                                borderRadius: 1,
-                            }}>
-                            {homeReserve.map(player => (
-                                <Grid
-                                    key={player.id}
-                                    item
-                                    xs={10}
-                                    onClick={() =>
-                                        onHandlePlayer(
-                                            player,
-                                            homeTeam,
-                                            awayTeam
-                                        )
-                                    }>
-                                    <Stats player={player} />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Grid>
-                ) : (
-                    currentPitcher && <Grid
-                        item
-                        container
-                        justifyContent="space-around"
-                        rowSpacing={1}>
-                        <Grid item xs={11} justifyContent="center">
-                            <h2>{matchData.away}</h2>
-                        </Grid>
-                        <Grid
-                            container
-                            item
-                            rowSpacing={2}
-                            xs={11}
-                            justifyContent="space-around"
-                            sx={{
-                                marginTop: 1,
-                                backgroundColor: 'aliceblue',
-                                paddingBottom: 3,
-                                borderRadius: 1,
-                            }}>
-                            {awayBatter.map(player => (
-                                <Grid
-                                    key={player.id}
-                                    item
-                                    xs={10}
-                                    onClick={() =>
-                                        onHandlePlayer(
-                                            player,
-                                            awayTeam,
-                                            homeTeam
-                                        )
-                                    }>
-                                    <Stats
-                                        player={player}
-                                        active={
-                                            awayBatter.indexOf(player) ===
-                                            awayIndex
-                                        }
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
-                        <Grid
-                            container
-                            item
-                            rowSpacing={2}
-                            xs={11}
-                            justifyContent="space-around"
-                            sx={{
-                                marginTop: 1,
-                                backgroundColor: 'aliceblue',
-                                paddingBottom: 3,
-                                borderRadius: 1,
-                            }}>
-                            {awayReserve.map(player => (
-                                <Grid
-                                    key={player.id}
-                                    item
-                                    xs={10}
-                                    onClick={() =>
-                                        onHandlePlayer(
-                                            player,
-                                            awayTeam,
-                                            homeTeam
-                                        )
-                                    }>
-                                    <Stats player={player} />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Grid>
-                )}
+                {matchData.bottomHalf === true
+                    ? currentPitcher && (
+                          <Grid
+                              item
+                              container
+                              justifyContent="space-around"
+                              xs={12}>
+                              <Grid item xs={11} justifyContent="center">
+                                  <h2>{matchData.home}</h2>
+                              </Grid>
+                              <Grid
+                                  item
+                                  xs={11}
+                                  container
+                                  justifyContent="space-around"
+                                  rowSpacing={2}
+                                  sx={{
+                                      marginTop: 1,
+                                      backgroundColor: 'aliceblue',
+                                      paddingBottom: 3,
+                                      borderRadius: 1,
+                                  }}>
+                                  {homeBatter.map(player => (
+                                      <Grid
+                                          key={player.id}
+                                          item
+                                          xs={10}
+                                          onClick={() =>
+                                              onHandlePlayer(
+                                                  player,
+                                                  homeTeam,
+                                                  awayTeam
+                                              )
+                                          }>
+                                          <Stats
+                                              player={player}
+                                              active={
+                                                  homeBatter.indexOf(player) ===
+                                                  homeIndex
+                                              }
+                                          />
+                                      </Grid>
+                                  ))}
+                              </Grid>
+                              <Grid
+                                  item
+                                  xs={11}
+                                  container
+                                  justifyContent="space-around"
+                                  rowSpacing={2}
+                                  sx={{
+                                      marginTop: 1,
+                                      backgroundColor: 'aliceblue',
+                                      paddingBottom: 3,
+                                      borderRadius: 1,
+                                  }}>
+                                  {homeReserve.map(player => (
+                                      <Grid
+                                          key={player.id}
+                                          item
+                                          xs={10}
+                                          onClick={() =>
+                                              onHandlePlayer(
+                                                  player,
+                                                  homeTeam,
+                                                  awayTeam
+                                              )
+                                          }>
+                                          <Stats player={player} />
+                                      </Grid>
+                                  ))}
+                              </Grid>
+                          </Grid>
+                      )
+                    : currentPitcher && (
+                          <Grid
+                              item
+                              container
+                              justifyContent="space-around"
+                              rowSpacing={1}>
+                              <Grid item xs={11} justifyContent="center">
+                                  <h2>{matchData.away}</h2>
+                              </Grid>
+                              <Grid
+                                  container
+                                  item
+                                  rowSpacing={2}
+                                  xs={11}
+                                  justifyContent="space-around"
+                                  sx={{
+                                      marginTop: 1,
+                                      backgroundColor: 'aliceblue',
+                                      paddingBottom: 3,
+                                      borderRadius: 1,
+                                  }}>
+                                  {awayBatter.map(player => (
+                                      <Grid
+                                          key={player.id}
+                                          item
+                                          xs={10}
+                                          onClick={() =>
+                                              onHandlePlayer(
+                                                  player,
+                                                  awayTeam,
+                                                  homeTeam
+                                              )
+                                          }>
+                                          <Stats
+                                              player={player}
+                                              active={
+                                                  awayBatter.indexOf(player) ===
+                                                  awayIndex
+                                              }
+                                          />
+                                      </Grid>
+                                  ))}
+                              </Grid>
+                              <Grid
+                                  container
+                                  item
+                                  rowSpacing={2}
+                                  xs={11}
+                                  justifyContent="space-around"
+                                  sx={{
+                                      marginTop: 1,
+                                      backgroundColor: 'aliceblue',
+                                      paddingBottom: 3,
+                                      borderRadius: 1,
+                                  }}>
+                                  {awayReserve.map(player => (
+                                      <Grid
+                                          key={player.id}
+                                          item
+                                          xs={10}
+                                          onClick={() =>
+                                              onHandlePlayer(
+                                                  player,
+                                                  awayTeam,
+                                                  homeTeam
+                                              )
+                                          }>
+                                          <Stats player={player} />
+                                      </Grid>
+                                  ))}
+                              </Grid>
+                          </Grid>
+                      )}
             </Grid>
         </Box>
     )

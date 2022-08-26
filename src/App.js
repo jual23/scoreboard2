@@ -8,13 +8,16 @@ import axios from 'axios'
 // Components
 import GameTracker from './components/GameTracker'
 import ModalStats from './components/ModalStats'
-import TeamSelect from './components/TeamSelect'
+// import TeamSelect from './components/TeamSelect'
 import TeamSetup from './components/TeamSetup'
 import Appbar from './components/Appbar'
+import LeagueSelect from './components/LeagueSelect'
+import MatchSelect from './components/MatchSelect'
 
 const App = () => {
     let navigate = useNavigate()
     const defaultMatchData = {
+        id: '',
         home: '',
         homeId: '',
         away: '',
@@ -42,16 +45,8 @@ const App = () => {
     ]
 
     const [teams, setTeams] = useState([])
-
-    useEffect(() => {
-        axios
-            .get(
-                'https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/leagues?fields[0]=name&populate[logo][fields][0]=url&populate[teams][fields][0]=name&populate[teams][populate][logo][fields][0]=url&filters[id]=3'
-            )
-            .then(response => {
-                setTeams(response.data.data[0].attributes.teams.data)
-            })
-    }, [])
+    const [leagues, setLeagues] = useState([])
+    const [matchList, setMatchList] = useState([])
 
     const [existingGame, setExistingGame] = useState(() => {
         const localdata = localStorage.getItem('existingGame')
@@ -173,7 +168,16 @@ const App = () => {
     })
 
     useEffect(() => {
-        console.log('dang')
+        axios
+            .get(
+                'https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/leagues?fields[0]=name&populate[logo][fields][0]=url'
+            )
+            .then(response => {
+                setLeagues(response.data.data)
+            })
+    }, [])
+
+    useEffect(() => {
         localStorage.setItem('matchData', JSON.stringify(matchData))
     }, [matchData])
 
@@ -333,7 +337,6 @@ const App = () => {
     }
 
     const submitTeams = async e => {
-        e.preventDefault()
         let response1 = await axios.get(
             `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.homeId}&filters[league][id][$eq]=3`
         )
@@ -412,15 +415,15 @@ const App = () => {
                 : setAwayReserve(
                       awayReserve.map(player => {
                           if (player.id === currentPitcher.id) {
-                            return {
+                              return {
                                   ...player,
                                   enfrentados: player.enfrentados + 1,
                               }
                           }
                           return player
                       })
-                  )  
-        } else if (pstat === 'run' ) {
+                  )
+        } else if (pstat === 'run') {
             currentPitcher.role === 1
                 ? currentPitcher.team === matchData.homeId
                     ? setHomeBatter(
@@ -428,7 +431,8 @@ const App = () => {
                               if (player.id === currentPitcher.id) {
                                   return {
                                       ...player,
-                                      carreraspermitidas: player.carreraspermitidas + 1,
+                                      carreraspermitidas:
+                                          player.carreraspermitidas + 1,
                                   }
                               }
                               return player
@@ -437,10 +441,11 @@ const App = () => {
                     : setAwayBatter(
                           awayBatter.map(player => {
                               if (player.id === currentPitcher.id) {
-                                return {
-                                    ...player,
-                                    carreraspermitidas: player.carreraspermitidas + 1,
-                                }
+                                  return {
+                                      ...player,
+                                      carreraspermitidas:
+                                          player.carreraspermitidas + 1,
+                                  }
                               }
                               return player
                           })
@@ -468,9 +473,7 @@ const App = () => {
                           return player
                       })
                   )
-        }
-        
-        else {
+        } else {
             currentPitcher.role === 1
                 ? currentPitcher.team === matchData.homeId
                     ? setHomeBatter(
@@ -513,12 +516,11 @@ const App = () => {
                 : setAwayReserve(
                       awayReserve.map(player => {
                           if (player.id === currentPitcher.id) {
-                            return {
+                              return {
                                   ...player,
                                   [pstat]: player[pstat] + 1,
                                   enfrentados: player.enfrentados + 1,
                               }
-                              
                           }
                           return player
                       })
@@ -567,15 +569,15 @@ const App = () => {
                 : setAwayReserve(
                       awayReserve.map(player => {
                           if (player.id === currentPitcher.id) {
-                            return {
+                              return {
                                   ...player,
                                   enfrentados: player.enfrentados - 1,
                               }
                           }
                           return player
                       })
-                  )  
-        } else if (pstat === 'run' ) {
+                  )
+        } else if (pstat === 'run') {
             currentPitcher.role === 1
                 ? currentPitcher.team === matchData.homeId
                     ? setHomeBatter(
@@ -583,7 +585,8 @@ const App = () => {
                               if (player.id === currentPitcher.id) {
                                   return {
                                       ...player,
-                                      carreraspermitidas: player.carreraspermitidas - 1,
+                                      carreraspermitidas:
+                                          player.carreraspermitidas - 1,
                                   }
                               }
                               return player
@@ -592,10 +595,11 @@ const App = () => {
                     : setAwayBatter(
                           awayBatter.map(player => {
                               if (player.id === currentPitcher.id) {
-                                return {
-                                    ...player,
-                                    carreraspermitidas: player.carreraspermitidas - 1,
-                                }
+                                  return {
+                                      ...player,
+                                      carreraspermitidas:
+                                          player.carreraspermitidas - 1,
+                                  }
                               }
                               return player
                           })
@@ -623,9 +627,7 @@ const App = () => {
                           return player
                       })
                   )
-        }
-        
-        else {
+        } else {
             currentPitcher.role === 1
                 ? currentPitcher.team === matchData.homeId
                     ? setHomeBatter(
@@ -668,12 +670,11 @@ const App = () => {
                 : setAwayReserve(
                       awayReserve.map(player => {
                           if (player.id === currentPitcher.id) {
-                            return {
+                              return {
                                   ...player,
                                   [pstat]: player[pstat] - 1,
                                   enfrentados: player.enfrentados - 1,
                               }
-                              
                           }
                           return player
                       })
@@ -697,7 +698,7 @@ const App = () => {
             pitcherStatUp(stat)
         }
 
-        if ( stat === 'homerun') {
+        if (stat === 'homerun') {
             pitcherStatUp('carreraspermitidas')
         }
 
@@ -788,19 +789,19 @@ const App = () => {
         }
 
         if (stat === 'basebola') {
-            pitcherStatUp('bbconcedida')
+            pitcherStatDown('bbconcedida')
         }
 
         if (stat === 'run' || stat === 'out' || stat === 'strikeout') {
-            pitcherStatUp(stat)
+            pitcherStatDown(stat)
         }
 
-        if ( stat === 'homerun') {
-            pitcherStatUp('carreraspermitidas')
+        if (stat === 'homerun') {
+            pitcherStatDown('carreraspermitidas')
         }
 
         if (stat === 'hit' || stat === 'double' || stat === 'triple') {
-            pitcherStatUp('hitspermitidos')
+            pitcherStatDown('hitspermitidos')
         }
 
         if (stat !== 'run' && stat !== 'impulsadas') {
@@ -967,6 +968,62 @@ const App = () => {
                   )
               )
     }
+    const upload = () => {
+        const playerData = homeBatter.concat(
+            homeReserve.concat(awayBatter.concat(awayReserve))
+        )
+        // let numOr0 = n => (isNaN(n) ? 0 : n)
+
+        let matchdataupload = {
+            team_a_score: 6,
+            team_b_score: 4,
+            team_a_runs: homeRuns,
+            team_b_runs: awayRuns,
+            completed: true,
+        }
+        let output = []
+
+        for (let player of playerData) {
+            let p = {
+                game: matchData.id,
+                player: player.id,
+                hit: 0,
+                double: 0,
+                triple: 0,
+                run: 0,
+                homerun: 0,
+                out: 0,
+                strikeout: 0,
+                basebola: 0,
+                errores: 0,
+                impulsadas: 0,
+                hitspermitidos: 0,
+                enfrentados: 0,
+                carreraspermitidas: 0,
+                bbconcedida: 0,
+            }
+            output.push(p)
+        }
+        // output.map(player => {
+        //     axios
+        //         .post(
+        //             `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/stats`,
+        //             {player}
+        //         )
+        //         .then(function (response) {
+        //             console.log(response)
+        //         })
+        // })
+        console.log(matchdataupload)
+        axios
+            .put(
+                `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/games/${matchData.id}`,
+                {matchdataupload}
+            )
+            .then(function (response) {
+                console.log(response)
+            })
+    }
 
     const save = () => {
         const data = homeBatter.concat(
@@ -1023,11 +1080,24 @@ const App = () => {
                     path="/"
                     exact
                     element={
-                        <TeamSelect
+                        <LeagueSelect
+                            leagues={leagues}
+                            setMatchList={setMatchList}
+                            navigate={navigate}
+                        />
+                    }
+                />
+                <Route
+                    path="/match-select"
+                    exact
+                    element={
+                        <MatchSelect
                             setMatchData={setMatchData}
+                            setTeams={setTeams}
                             matchData={matchData}
+                            matchList={matchList}
+                            navigate={navigate}
                             submitTeams={submitTeams}
-                            teams={teams}
                         />
                     }
                 />
@@ -1070,6 +1140,7 @@ const App = () => {
                             onHandlePitcher={handleCurrentPitcher}
                             homeIndex={homeIndex}
                             awayIndex={awayIndex}
+                            upload={upload}
                         />
                     }
                 />
