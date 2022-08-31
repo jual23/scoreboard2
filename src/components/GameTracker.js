@@ -21,7 +21,6 @@ const GameTracker = ({
     onHandlePlayer,
     currentPitcher,
     onHandlePitcher,
-    save,
     homeIndex,
     awayIndex,
     upload,

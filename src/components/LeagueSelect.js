@@ -1,12 +1,9 @@
 import axios from 'axios'
 import {
     Grid,
-    Box,
-    Typography,
     Button,
     Card,
     CardMedia,
-    CardContent,
 } from '@mui/material'
 
 const LeagueSelect = ({leagues, setMatchList, navigate}) => {

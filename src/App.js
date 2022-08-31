@@ -44,7 +44,7 @@ const App = () => {
         {inning: 8, runs: ''},
     ]
 
-    const [teams, setTeams] = useState([])
+    // const [teams, setTeams] = useState([])
     const [leagues, setLeagues] = useState([])
     const [matchList, setMatchList] = useState([])
 
@@ -1015,6 +1015,7 @@ const App = () => {
                 .then(function (response) {
                     console.log(response)
                 })
+                return
         })
         console.log(matchdataupload)
         axios
@@ -1095,7 +1096,7 @@ const App = () => {
                     element={
                         <MatchSelect
                             setMatchData={setMatchData}
-                            setTeams={setTeams}
+                            // setTeams={setTeams}
                             matchData={matchData}
                             matchList={matchList}
                             navigate={navigate}
