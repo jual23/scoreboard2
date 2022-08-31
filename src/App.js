@@ -974,51 +974,53 @@ const App = () => {
         )
         // let numOr0 = n => (isNaN(n) ? 0 : n)
 
-        let matchdataupload = {
+        let matchdataupload = {data:{
             team_a_score: 6,
             team_b_score: 4,
             team_a_runs: homeRuns,
             team_b_runs: awayRuns,
             completed: true,
         }
+
+        }
         let output = []
 
         for (let player of playerData) {
-            let p = {
+            let p = {data:{
                 game: matchData.id,
                 player: player.id,
-                hit: 0,
-                double: 0,
-                triple: 0,
-                run: 0,
-                homerun: 0,
-                out: 0,
-                strikeout: 0,
-                basebola: 0,
-                errores: 0,
-                impulsadas: 0,
-                hitspermitidos: 0,
-                enfrentados: 0,
-                carreraspermitidas: 0,
-                bbconcedida: 0,
-            }
+                hit: player.hit,
+                double: player.double,
+                triple: player.triple,
+                run: player.run,
+                homerun: player.homerun,
+                out: player.out,
+                strikeout: player.strikeout,
+                basebola: player.basebola,
+                errores: player.errores,
+                impulsadas: player.impulsadas,
+                hitspermitidos: player.hitspermitidos,
+                enfrentados: player.enfrentados,
+                carreraspermitidas: player.carreraspermitidas,
+                bbconcedida: player.bbconcedida,
+            }}
             output.push(p)
         }
-        // output.map(player => {
-        //     axios
-        //         .post(
-        //             `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/stats`,
-        //             {player}
-        //         )
-        //         .then(function (response) {
-        //             console.log(response)
-        //         })
-        // })
+        output.map(player => {
+            axios
+                .post(
+                    `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/stats`,
+                    player
+                )
+                .then(function (response) {
+                    console.log(response)
+                })
+        })
         console.log(matchdataupload)
         axios
             .put(
                 `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/games/${matchData.id}`,
-                {matchdataupload}
+                matchdataupload
             )
             .then(function (response) {
                 console.log(response)
