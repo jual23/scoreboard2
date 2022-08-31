@@ -5,7 +5,7 @@ import Pitcherbox from './Pitcherbox'
 import Stats from './Stats'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import {Button, Card, CardMedia, CardContent} from '@mui/material'
+import {Button, Card, CardContent} from '@mui/material'
 
 const GameTracker = ({
     awayTeam,

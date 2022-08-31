@@ -788,19 +788,19 @@ const App = () => {
         }
 
         if (stat === 'basebola') {
-            pitcherStatUp('bbconcedida')
+            pitcherStatDown('bbconcedida')
         }
 
         if (stat === 'run' || stat === 'out' || stat === 'strikeout') {
-            pitcherStatUp(stat)
+            pitcherStatDown(stat)
         }
 
         if ( stat === 'homerun') {
-            pitcherStatUp('carreraspermitidas')
+            pitcherStatDown('carreraspermitidas')
         }
 
         if (stat === 'hit' || stat === 'double' || stat === 'triple') {
-            pitcherStatUp('hitspermitidos')
+            pitcherStatDown('hitspermitidos')
         }
 
         if (stat !== 'run' && stat !== 'impulsadas') {
