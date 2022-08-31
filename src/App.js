@@ -1015,7 +1015,7 @@ const App = () => {
                 .then(function (response) {
                     console.log(response)
                 })
-                return
+                return player
         })
         console.log(matchdataupload)
         axios
