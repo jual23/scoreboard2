@@ -972,13 +972,21 @@ const App = () => {
         const playerData = homeBatter.concat(
             homeReserve.concat(awayBatter.concat(awayReserve))
         )
-        // let numOr0 = n => (isNaN(n) ? 0 : n)
+        
+            const home = homeRuns.map((inning)=>{ return inning.runs})
+            const away = awayRuns.map((inning)=>{ return inning.runs})
+            let numOr0 = n => isNaN(n) ? 0 : n
+            const team_a_total = home.reduce((a, b) => 
+            numOr0(a) + numOr0(b))
+            const team_b_total = away.reduce((a, b) => 
+            numOr0(a) + numOr0(b))
+
 
         let matchdataupload = {data:{
-            team_a_score: 6,
-            team_b_score: 4,
-            team_a_runs: homeRuns,
-            team_b_runs: awayRuns,
+            team_a_score: team_a_total,
+            team_b_score: team_b_total,
+            team_a_runs: home ,
+            team_b_runs: away,
             completed: true,
         }
 
