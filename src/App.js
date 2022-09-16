@@ -336,9 +336,11 @@ const App = () => {
         }
     }
 
-    const submitTeams = async e => {
+    const submitTeams = async (homeId,awayId) => {
+        // if (!matchData) await setMatchData(localStorage.getItem('matchData'))
+        console.log(homeId,awayId)
         let response1 = await axios.get(
-            `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.homeId}&filters[league][id][$eq]=3`
+            `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${homeId}&filters[league][id][$eq]=3`
         )
 
         let team1 = await parsePlayers(
@@ -348,7 +350,7 @@ const App = () => {
         )
 
         let response2 = await axios.get(
-            `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${matchData.awayId}&filters[league][id][$eq]=3`
+            `https://pmalgs-kickball-api-r2e5t.ondigitalocean.app/api/rosters?fields[0]=number&populate[player][fields][0]=name&populate[player][fields][1]=gender&populate[player][populate][profile][fields][0]=url&filters[team][id][$eq]=${awayId}&filters[league][id][$eq]=3`
         )
 
         let team2 = await parsePlayers(

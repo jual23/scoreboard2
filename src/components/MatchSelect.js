@@ -1,7 +1,7 @@
 import {Grid, Typography, Button, Card, CardContent} from '@mui/material'
 
 const MatchSelect = ({matchData, setMatchData, matchList, submitTeams}) => {
-    const setupMatch = (home, homeId, away, awayId, matchId) => {
+    const  setupMatch = (home, homeId, away, awayId, matchId) => {
         setMatchData({
             ...matchData,
             home: home,
@@ -10,7 +10,7 @@ const MatchSelect = ({matchData, setMatchData, matchList, submitTeams}) => {
             awayId: awayId,
             id: matchId,
         })
-        submitTeams()
+        submitTeams(homeId,awayId)
     }
 
     return (

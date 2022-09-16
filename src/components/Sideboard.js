@@ -6,6 +6,8 @@ import Card from '@mui/material/Card'
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 
 const Sideboard = ({matchData, setMatchData}) => {
     const [openTimeout, setOpenTimeout] = useState(false)
@@ -111,6 +113,7 @@ const Sideboard = ({matchData, setMatchData}) => {
                 
                     <Grid container justifyContent="center">
                     <Grid item xs={10} sx={{textAlign:'center'}}><h2>{matchData.home}</h2></Grid>
+
                         <Grid item xs={10}>
                             <button
                                 className="primaryButton"
@@ -146,7 +149,12 @@ const Sideboard = ({matchData, setMatchData}) => {
             <Dialog
                 onClose={() => setOpenChallenge(false)}
                 open={openChallenge}>
-                    <Box sx={{padding:3}}>
+                    <IconButton sx={{
+    position:'absolute',
+    top: -4,
+    right:0,
+  }}><CloseIcon  onClick={() => setOpenChallenge(false)} /></IconButton>
+                    <Box sx={{margin:4}}>
                 <h2>¿Se gana el challenge?</h2>
                 <Stack direction="row" justifyContent="space-evenly">
                     <Button variant="contained" color="success" onClick={() => challengeWin(team)}> Si</Button>
